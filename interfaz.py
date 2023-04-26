@@ -202,7 +202,7 @@ def CambiarVentanaPrincipal():
     #order.pack_forget() para todas las demas ventanas hay que borrarlas con pack_forget()
 def CambiarInfPaciente():
     ventana.title("Cargar Video")
-    ventana.geometry("640x500")
+    ventana.geometry("750x500")
     ventanaInfPaciente.pack(fill='both', expand=1)
     ventanaPrincipal.pack_forget()
     iniciarMostrar(LabelVideo3, 'videos_out/video_prueba56.avi')
@@ -211,22 +211,30 @@ boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20
 boton1.place(x = 180, y = 100)
 boton2.place(x = 180, y = 250)
 ##Widgets de la ventana info paciente------------------------------------------
-LabelInf1 = Label(ventanaInfPaciente, text = "Video de entrada:")
-LabelInf1.grid(column = 1, row= 0)
+LabelInf1 = Label(ventanaInfPaciente, text = "Datos de paciente:", font=("Arial", 18), padx=5, pady=5)
+LabelInf1.grid(column = 0, row= 0, columnspan= 3)
 
 NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose")
-NombreEtiqueta.grid(row =0, column = 0)
+NombreEtiqueta.grid(row = 1, column = 0)
 ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Anchoa")    
-ApellidoEtiqueta.grid(row =1, column = 0)
+ApellidoEtiqueta.grid(row = 2, column = 0)
+BicicletaEtiqueta =  Label(ventanaInfPaciente, text = "Bicicleta:")    
+BicicletaEtiqueta.grid(row = 3, column = 0)
+EdadEtiqueta =  Label(ventanaInfPaciente, text = "Edad:")    #solo admitira 2 numeros  
+EdadEtiqueta.grid(row = 4, column = 0)
+PesoEtiqueta =  Label(ventanaInfPaciente, text = "Peso:")    #solo admitira 3 numeros 
+PesoEtiqueta.grid(row = 5, column = 0)
+AlturaEtiqueta =  Label(ventanaInfPaciente, text = "Altura:")  #valor en centimetros
+AlturaEtiqueta.grid(row = 6, column = 0)
+SexoEtiqueta =  Label(ventanaInfPaciente, text = "Sexo:")   #solo permitira seleccionar 1 parametro de dos 
+SexoEtiqueta.grid(row = 7, column=0, rowspan=2)
 
-LabelInfoVideoPath2 = Label(ventanaInfPaciente, text = "Mostrar datos del paciente")
-LabelInfoVideoPath2.grid(column = 1, row = 1)
-
+#  paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
 LabelVideo3 = Label(ventanaInfPaciente)
-LabelVideo3.grid(column = 0, row = 2, columnspan=2)
+LabelVideo3.grid(column = 1, row = 1, columnspan=2, rowspan = 7, padx = 15)
 
 btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
-btnRegresar.grid(column = 0, row=3, columnspan = 2, padx=5, pady=5)
+btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
 #-----------------------main def--------------------------------------
 CambiarVentanaPrincipal()
 # CambiarInfPaciente() 
