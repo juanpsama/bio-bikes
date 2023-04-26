@@ -9,9 +9,9 @@ from makeVideo import *
 def iniciarMostrar(LabelVideo, video_path):
     global cap
     cap = cv2.VideoCapture(video_path)
-    visualizarWebcam(LabelVideo)
+    visualizar(LabelVideo, None)
 
-#functions for VIDEO FILES
+#functions for WEBCAM
 def visualizarWebcam(LabelVideo):
     global cap
     if cap is not None:
@@ -55,7 +55,8 @@ def visualizar(LabelVideo, LabelInfoVideoPath):#leer el video
             LabelVideo.image = img
             LabelVideo.after(20, lambda: visualizar(LabelVideo, LabelInfoVideoPath)) #after, llama a cierta funcion (visualizar) despues de un delay en ms
         else:
-            LabelInfoVideoPath.configure(text = "Aún no se ha seleccionado un video")  #limpiar cuando se cierre el video
+            if LabelInfoVideoPath != None:
+                LabelInfoVideoPath.configure(text = "Aún no se ha seleccionado un video")  #limpiar cuando se cierre el video
             LabelVideo.image = ""
             cap.release()
         
