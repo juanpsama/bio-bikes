@@ -24,8 +24,8 @@ def savePersonalData(name, last_name, bike, age, weight, height, gender):
 #     # connection.close()  
   
 
-# table = """CREATE TABLE PACIENTES (NAME VARCHAR(255), LAST_NAME VARCHAR(255),
-# BIKE VARCHAR(255),AGE INTEGER(3), WEIGHT INTEGER(3), HEIGHT INTEGER(3), GENDER VARCHAR(20));"""
+# table = """CREATE TABLE PARAMETROS (ID_PACIENTE VARCHAR(255), URL_VIDEO VARCHAR(255),
+# KNEE_MIN FLOAT(3), KNEE_MAX FLOAT(3), HIP_MIN FLOAT(3), HIP_MAX FLOAT(3), SHOULDER_AVG FLOAT(3));"""
 # cursor.execute(table)
 
 

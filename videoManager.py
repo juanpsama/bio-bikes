@@ -46,7 +46,7 @@ def visualizar(LabelVideo, LabelInfoVideoPath):#leer el video
             # frame = imutils.resize(frame, width = 640)
             frame = cv2.resize(frame, (640, 360), interpolation = cv2.INTER_CUBIC)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = processImage(frame, )
+            # frame = processImage(frame)
             # cv2.imshow('hola', frame)
             im = Image.fromarray(frame)
             img = ImageTk.PhotoImage(image = im) #transformar cada fotograma a formato imageTK

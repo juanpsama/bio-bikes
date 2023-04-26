@@ -189,7 +189,7 @@ boton3.place(x = 250, y =150)
 ##Widgets de la primera ventana-------------------------------------------
 def CambiarVentanaPrincipal():
     ventana.title("Bienvenido al sistema JJJ")
-    ventana.geometry("640x500")
+    ventana.geometry("500x500")
     ventanaPrincipal.pack(fill='both', expand=1)
     ventanaInfPaciente.pack_forget()
     #order.pack_forget() para todas las demas ventanas hay que borrarlas con pack_forget()
