@@ -42,29 +42,6 @@ def textoDelCuadro():
         ventanaPaciente.pack_forget()
     else:
         return
-##Widgets de la ventana video------------------------------------------
-def CambiarInfPaciente():
-    ventana.title("Cargar Video")
-    ventana.geometry("640x500")
-    ventanaInfPaciente.pack(fill='both', expand=1)
-    ventanaCargarVideo.pack_forget()
-    iniciarMostrar(LabelVideo3, 'videos_out/video_prueba56.avi')
-
-LabelInf1 = Label(ventanaInfPaciente, text = "Video de entrada:")
-LabelInf1.grid(column = 1, row= 0)
-
-NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose")
-NombreEtiqueta.grid(row =0, column = 0)
-ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Anchoa")    
-ApellidoEtiqueta.grid(row =1, column = 0)
-
-LabelInfoVideoPath2 = Label(ventanaInfPaciente, text = "Mostrar datos del paciente")
-LabelInfoVideoPath2.grid(column = 1, row = 1)
-
-LabelVideo3 = Label(ventanaInfPaciente)
-LabelVideo3.grid(column = 0, row = 2, columnspan=2)
-
-
 # boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 # boton1.grid(column = 0, row = 0, columnspan=2)    
 ##Widgets de la ventana webcam------------------------------------------
@@ -212,12 +189,37 @@ boton3.place(x = 250, y =150)
 ##Widgets de la primera ventana-------------------------------------------
 def CambiarVentanaPrincipal():
     ventana.title("Bienvenido al sistema JJJ")
+    ventana.geometry("640x500")
     ventanaPrincipal.pack(fill='both', expand=1)
+    ventanaInfPaciente.pack_forget()
     #order.pack_forget() para todas las demas ventanas hay que borrarlas con pack_forget()
+def CambiarInfPaciente():
+    ventana.title("Cargar Video")
+    ventana.geometry("640x500")
+    ventanaInfPaciente.pack(fill='both', expand=1)
+    ventanaPrincipal.pack_forget()
+    iniciarMostrar(LabelVideo3, 'videos_out/video_prueba56.avi')
 boton1 =  Button(ventanaPrincipal, text = "Nuevo paciente", width = 20, height = 5, command = CambiarVentanaPaciente)
 boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20, height = 5, command = CambiarInfPaciente)
 boton1.place(x = 180, y = 100)
 boton2.place(x = 180, y = 250)
+##Widgets de la ventana info paciente------------------------------------------
+LabelInf1 = Label(ventanaInfPaciente, text = "Video de entrada:")
+LabelInf1.grid(column = 1, row= 0)
+
+NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose")
+NombreEtiqueta.grid(row =0, column = 0)
+ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Anchoa")    
+ApellidoEtiqueta.grid(row =1, column = 0)
+
+LabelInfoVideoPath2 = Label(ventanaInfPaciente, text = "Mostrar datos del paciente")
+LabelInfoVideoPath2.grid(column = 1, row = 1)
+
+LabelVideo3 = Label(ventanaInfPaciente)
+LabelVideo3.grid(column = 0, row = 2, columnspan=2)
+
+btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
+btnRegresar.grid(column = 0, row=3, columnspan = 2, padx=5, pady=5)
 #-----------------------main def--------------------------------------
 CambiarVentanaPrincipal()
 # CambiarInfPaciente() 

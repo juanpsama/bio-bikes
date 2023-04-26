@@ -19,7 +19,7 @@ def visualizarWebcam(LabelVideo):
         if ret == True:
             frame = cv2.resize(frame, (640, 360), interpolation = cv2.INTER_CUBIC)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = processWebcam(frame)#reactivarr!!!!!!!!!
+            frame = processWebcam(frame)
             im = Image.fromarray(frame)
             img = ImageTk.PhotoImage(image=im)
             LabelVideo.configure(image=img)
