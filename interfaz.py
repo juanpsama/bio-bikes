@@ -29,7 +29,6 @@ def validate_entry_char(text):
 def textoDelCuadro():
     global sexo, paciente
     mandar = (cuadroNombre.get(), cuadroApellidos.get(), cuadroEdad.get(), cuadroPeso.get(), cuadroAltura.get(), sexo)
-    paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),'Rockhopper', int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
     aux_flag = True
     print(mandar)
     for elemento in mandar:
@@ -37,6 +36,7 @@ def textoDelCuadro():
             aux_flag = False
             break
     if aux_flag:
+        paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
         ventana.title("Tipo de analisis del paciente")
         ventanaAnalisis.pack(fill='both', expand=1)
         ventanaPaciente.pack_forget()
@@ -112,45 +112,47 @@ NombreEtiqueta =  Label(ventanaPaciente, text = "Nombre:")
 NombreEtiqueta.grid(row =0, column = 0)
 ApellidoEtiqueta =  Label(ventanaPaciente, text = "Apellido:")    
 ApellidoEtiqueta.grid(row =1, column = 0)
+BicicletaEtiqueta =  Label(ventanaPaciente, text = "Bicicleta:")    
+BicicletaEtiqueta.grid(row = 2, column = 0)
 EdadEtiqueta =  Label(ventanaPaciente, text = "Edad:")    #solo admitira 2 numeros  
-EdadEtiqueta.grid(row =2, column = 0)
+EdadEtiqueta.grid(row =3, column = 0)
 AñosEtiqueta = Label(ventanaPaciente, text = "años")
-AñosEtiqueta.grid(row =2, column = 2)
+AñosEtiqueta.grid(row =3, column = 2)
 PesoEtiqueta =  Label(ventanaPaciente, text = "Peso:")    #solo admitira 3 numeros 
-PesoEtiqueta.grid(row =3, column = 0)
+PesoEtiqueta.grid(row =4, column = 0)
 KgEtiqueta =  Label(ventanaPaciente, text = " kg")
-KgEtiqueta.grid(row =3, column = 2)
+KgEtiqueta.grid(row =4, column = 2)
 AlturaEtiqueta =  Label(ventanaPaciente, text = "Altura:")  #valor en centimetros
-AlturaEtiqueta.grid(row =4, column = 0)
+AlturaEtiqueta.grid(row =5, column = 0)
 CmEtiqueta =  Label(ventanaPaciente, text = "cm")
-CmEtiqueta.grid(row =4, column = 2)
+CmEtiqueta.grid(row =5, column = 2)
 SexoEtiqueta =  Label(ventanaPaciente, text = "Sexo:")   #solo permitira seleccionar 1 parametro de dos 
-SexoEtiqueta.grid(row=5, column=0, rowspan=2)
+SexoEtiqueta.grid(row=6, column=0, rowspan=2)
 
-l = Label(ventanaPaciente, bg='white', width=20, text='Vacio')
-l.grid(row=7, column = 0)
+labelSexo = Label(ventanaPaciente, bg='red', width=20, text='Vacio')
+labelSexo.grid(row=8, column = 0)
 
 sexo = ""
 def print_selectionMasculino():
     global sexo
     sexo = 'Masculino'
     varFemenino.set(0)
-    l.config(text=sexo)
+    labelSexo.config(text=sexo, bg='white')
     return sexo
 
 def print_selectionFemenino():
     global sexo
     sexo = 'Femenino'
     varMasculino.set(0)
-    l.config(text=sexo) 
+    labelSexo.config(text=sexo, bg='white') 
     return sexo
 
 varMasculino = IntVar()
 varFemenino = IntVar()
 checkMasculino = Checkbutton(ventanaPaciente, text='Masculino',variable=varMasculino, onvalue=1, offvalue=0, command=print_selectionMasculino)
-checkMasculino.grid(row =5, column = 1)
+checkMasculino.grid(row =6, column = 1)
 checkFemenino = Checkbutton(ventanaPaciente, text='Femenino',variable=varFemenino, onvalue=1, offvalue=0, command=print_selectionFemenino)
-checkFemenino.grid(row =6, column = 1)
+checkFemenino.grid(row =7, column = 1)
  
 ###Entry's-----------------------------------------
 cuadroNombre =  Entry(ventanaPaciente,
@@ -163,24 +165,29 @@ cuadroApellidos = Entry(ventanaPaciente,
     validatecommand=(ventanaPaciente.register(validate_entry_char), "%S" )
 )
 cuadroApellidos.grid(row =1, column = 1)
+cuadroBicicleta = Entry(ventanaPaciente,
+    validate="key",
+    validatecommand=(ventanaPaciente.register(validate_entry_char), "%S" )
+)
+cuadroBicicleta.grid(row =2, column = 1)
 cuadroEdad =  Entry(
     ventanaPaciente,
     validate="key",
     validatecommand=(ventanaPaciente.register(validate_entry), "%S", "%P", 3)
 )
-cuadroEdad.grid(row =2, column = 1)
+cuadroEdad.grid(row =3, column = 1)
 cuadroPeso =  Entry(
     ventanaPaciente,
     validate="key",
     validatecommand=(ventanaPaciente.register(validate_entry), "%S", "%P", 3)
 )
-cuadroPeso.grid(row =3, column = 1)
+cuadroPeso.grid(row =4, column = 1)
 cuadroAltura =  Entry(
     ventanaPaciente,
     validate="key",
     validatecommand=(ventanaPaciente.register(validate_entry), "%S", "%P", 3)
 )
-cuadroAltura.grid(row =4, column = 1)
+cuadroAltura.grid(row =5, column = 1)
 
 boton3 =  Button(ventanaPaciente, text = "Enviar", command = textoDelCuadro)
 #boton4 =  Button(ventanaPaciente, text = "Siguiente", width = 20, height = 5, command = CambiarVentanaAnalisis)
