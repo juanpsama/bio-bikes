@@ -77,7 +77,6 @@ def processImage(image):
         wrist = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].x * image_width) ,int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].y * image_height)]
     except:
         cv.putText(image, f'Persona no encontrada', (20, 20 ), cv.FONT_ITALIC, 1.0, (255,0,0), thickness = 2)
-        print('golaa desde el persona no encontrada')
     else:
         knee_angle = angles.getAnglesBetweenPoints(knee, ankle, hip)
         hip_angle = angles.getAnglesBetweenPoints(hip, shoulder, knee)

@@ -79,7 +79,6 @@ def visualizarVideo(LabelVideo, LabelInfoVideoPath):
         cap = cv2.VideoCapture(result_video_path)
         visualizar(LabelVideo, LabelInfoVideoPath)
     else:
-        print('holaa')
         LabelInfoVideoPath.configure(text = "Aún no se ha seleccionado un video")
 
 
