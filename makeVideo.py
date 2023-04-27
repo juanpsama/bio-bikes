@@ -80,7 +80,7 @@ def processImage(image):
     else:
         knee_angle = angles.getAnglesBetweenPoints(knee, ankle, hip)
         hip_angle = angles.getAnglesBetweenPoints(hip, shoulder, knee)
-        wrist_angle = angles.getAnglesBetweenPoints(hip, shoulder, knee)
+        wrist_angle = angles.getAnglesBetweenPoints(hip, shoulder, wrist)
 
         if knee_angle < 150 and knee_angle > 67:
             color_flag_knee = (0,255,0) 
@@ -91,7 +91,7 @@ def processImage(image):
         cv.putText(image, f'Cadera: {round(hip_angle, 3)}', (hip[0] - 150 , hip[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
         # print(f'Angulo rodilla: {knee_angle}')
         # print(f'Angulo cadera: {hip_angle}')
-    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle}
+    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'wrist_angle' : wrist_angle}
     return results
 def processWebcam(image):
     results_processed = processImage(image)
