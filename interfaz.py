@@ -215,19 +215,19 @@ LabelInf1 = Label(ventanaInfPaciente, text = "Datos de paciente:", font=("Arial"
 LabelInf1.grid(column = 0, row= 0, columnspan= 3)
 
 NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose")
-NombreEtiqueta.grid(row = 1, column = 0)
-ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Anchoa")    
-ApellidoEtiqueta.grid(row = 2, column = 0)
-BicicletaEtiqueta =  Label(ventanaInfPaciente, text = "Bicicleta:")    
-BicicletaEtiqueta.grid(row = 3, column = 0)
-EdadEtiqueta =  Label(ventanaInfPaciente, text = "Edad:")    #solo admitira 2 numeros  
-EdadEtiqueta.grid(row = 4, column = 0)
-PesoEtiqueta =  Label(ventanaInfPaciente, text = "Peso:")    #solo admitira 3 numeros 
-PesoEtiqueta.grid(row = 5, column = 0)
-AlturaEtiqueta =  Label(ventanaInfPaciente, text = "Altura:")  #valor en centimetros
+NombreEtiqueta.grid(row = 1, column = 0, padx=5)
+ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Ancheyta Lopez")    
+ApellidoEtiqueta.grid(row = 2, column = 0, padx=5)
+BicicletaEtiqueta =  Label(ventanaInfPaciente, text = "Bicicleta: Mercurio Ranger")    
+BicicletaEtiqueta.grid(row = 3, column = 0, padx=5)
+EdadEtiqueta =  Label(ventanaInfPaciente, text = "Edad: 21")    #solo admitira 2 numeros  
+EdadEtiqueta.grid(row = 4, column = 0, padx=5)
+PesoEtiqueta =  Label(ventanaInfPaciente, text = "Peso: 70 kg")    #solo admitira 3 numeros 
+PesoEtiqueta.grid(row = 5, column = 0, padx=5)
+AlturaEtiqueta =  Label(ventanaInfPaciente, text = "Altura: 170 cm")  #valor en centimetros
 AlturaEtiqueta.grid(row = 6, column = 0)
-SexoEtiqueta =  Label(ventanaInfPaciente, text = "Sexo:")   #solo permitira seleccionar 1 parametro de dos 
-SexoEtiqueta.grid(row = 7, column=0, rowspan=2)
+SexoEtiqueta =  Label(ventanaInfPaciente, text = "Sexo: Masculino")   #solo permitira seleccionar 1 parametro de dos 
+SexoEtiqueta.grid(row = 7, column=0, padx=5)
 
 #  paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
 LabelVideo3 = Label(ventanaInfPaciente)
