@@ -1,5 +1,6 @@
 import cv2 as cv
 import random
+from statistics import fmean
 import mediapipe as mp
 import angles
 from mediapipe.python.solutions.pose import PoseLandmark
@@ -23,8 +24,6 @@ pose = mp_pose.Pose(
 
 color_flag_knee = (150,25,255)
 color_flag_hip = (150,25,255)
-max_knee_angle = 0 
-min_hip_angle = 400
 
 #Custom landmarks
 
@@ -72,15 +71,15 @@ def processImage(image):
     try:
         knee = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_KNEE].x * image_width ), int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_KNEE].y * image_height)]
         ankle = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ANKLE].x * image_width), int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ANKLE].y * image_height)]
-        hip = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP].x * image_width) ,int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP].y * image_height)]
-        shoulder = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].x * image_width) ,int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].y * image_height)]
-        wrist = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].x * image_width) ,int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].y * image_height)]
+        hip = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP].x * image_width), int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP].y * image_height)]
+        shoulder = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].x * image_width), int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER].y * image_height)]
+        wrist = [int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST].x * image_width), int(results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST].y * image_height)]
     except:
         cv.putText(image, f'Persona no encontrada', (20, 20 ), cv.FONT_ITALIC, 1.0, (255,0,0), thickness = 2)
     else:
         knee_angle = angles.getAnglesBetweenPoints(knee, ankle, hip)
         hip_angle = angles.getAnglesBetweenPoints(hip, shoulder, knee)
-        wrist_angle = angles.getAnglesBetweenPoints(hip, shoulder, wrist)
+        shoulder_angle = angles.getAnglesBetweenPoints(hip, shoulder, wrist)
 
         if knee_angle < 150 and knee_angle > 67:
             color_flag_knee = (0,255,0) 
@@ -89,9 +88,10 @@ def processImage(image):
 
         cv.putText(image, f'Rodilla: {round(knee_angle, 3)}', (knee[0] + 50 , knee[1] ), cv.FONT_ITALIC, 1.0, color_flag_knee, thickness = 2)
         cv.putText(image, f'Cadera: {round(hip_angle, 3)}', (hip[0] - 150 , hip[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
+        cv.putText(image, f'Cadera: {round(shoulder_angle, 3)}', (shoulder[0] - 150 , shoulder[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
         # print(f'Angulo rodilla: {knee_angle}')
         # print(f'Angulo cadera: {hip_angle}')
-    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'wrist_angle' : wrist_angle}
+    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle}
     return results
 def processWebcam(image):
     results_processed = processImage(image)
@@ -106,11 +106,15 @@ def processVideo(videoPath):
     hip_angle = 0
     max_knee_angle = 0 
     min_knee_angle = 400
+    max_hip_angle = 0 
+    min_hip_angle = 400
+    avg_shoulder_angle = None
+    shoulder_angles = []
     cap = cv.VideoCapture(videoPath)
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
     size = (frame_width, frame_height)
-    print(videoPath)
+    # print(videoPath)
     rand_name_file = random.randint(2,100)
     result_path = f'videos_out/video_prueba{rand_name_file}.avi'
     result = cv.VideoWriter(result_path,
@@ -121,12 +125,6 @@ def processVideo(videoPath):
         success, image = cap.read()
         if not success:
             print("Ignoring empty camera frame.")
-            print(f'Angulo maximo en extension de cadera: {max_knee_angle}')
-            print(f'Angulo minimo en flexion de cadera: {min_knee_angle}')
-            with open('videos_out/readme.txt', 'w') as f:
-                f.write(f'Angulo maximo en extension de cadera: {max_knee_angle}')
-                f.write('\n')
-                f.write(f'Angulo minimo en flexion de cadera: {min_knee_angle}')
         # If loading a video, use 'break' instead of 'continue'.
             break
         results_processed = processImage(image)
@@ -134,12 +132,19 @@ def processVideo(videoPath):
         if results_processed['knee_angle']  != None:
             knee_angle = results_processed['knee_angle']  
             hip_angle = results_processed['hip_angle'] 
+            shoulder_angle = results_processed['shoulder_angle']
+            shoulder_angles.append(shoulder_angle)
 
         if knee_angle > max_knee_angle:
             max_knee_angle = knee_angle
         if knee_angle < min_knee_angle:
-            print(f'min: {knee_angle}')
             min_knee_angle = knee_angle
+
+        if hip_angle > max_hip_angle:
+            max_hip_angle = hip_angle
+        if hip_angle < min_hip_angle:
+            min_hip_angle = hip_angle
+
 
         result.write(image_processed)
         # image_reescaled = reescaleFrame(image, scale = 0.5)
@@ -150,7 +155,11 @@ def processVideo(videoPath):
             break
 
     cap.release()
+    avg_shoulder_angle = fmean(shoulder_angles)
+    print(f'max knee angle: {max_knee_angle}')
+    print(f'min knee angle: {min_knee_angle}')
+    print(f'max hip angle: {max_hip_angle}')
+    print(f'min    hip angle: {min_hip_angle}')
+    print(f'average shoulder angle: {avg_shoulder_angle}')
+
     return result_path
-
-
-# processVideo('videos/sagital1.mp4')

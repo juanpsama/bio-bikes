@@ -63,6 +63,7 @@ LabelVideoWebcam.grid(column=0, row=1, columnspan=2)
 
 # boton1 = Button(ventanaWebcam, text = "Iniciar grabacion", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 # boton1.grid(column = 0, row = 0, columnspan=2)
+
 ##Widgets de la ventana video------------------------------------------
 def CambiarVentanaVideo():
     ventana.title("Cargar Video")
@@ -81,6 +82,7 @@ LabelVideo.grid(column = 0, row = 2, columnspan=2)
 
 boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 boton1.grid(column = 0, row = 0, columnspan=2)
+
 ##Widgets de la ventana opcion video------------------------------------------
 def CambiarVentanaOpcionVideo():
     ventana.title("Elegir opcion de video")
@@ -90,6 +92,7 @@ boton8 =  Button(ventanaOpcionVideo, text = "Seleccionar Video", width = 20, hei
 boton9 =  Button(ventanaOpcionVideo, text = "Utilizar Webcam", width = 20, height = 5, command = CambiarVentanaWebcam)
 boton8.place(x = 180, y = 100)
 boton9.place(x = 180, y = 250)
+
 ##Widgets de la ventana analisis------------------------------------------
 def CambiarVentanaAnalisis():
     ventana.title("Tipo de analisis del paciente")
@@ -102,6 +105,7 @@ boton6 =  Button(ventanaAnalisis, text = "Análisis de ángulos", width = 20, he
 # boton5.place(x = 180, y = 100)
 boton6.place(x = 180, y = 150)
 # boton7.place(x = 400, y = 350)
+
 ##Widgets de la ventana nuevo paciente-------------------------------------
 def CambiarVentanaPaciente():
     ventana.title("Hoja de datos del paciente")
@@ -236,7 +240,8 @@ LabelVideo3.grid(column = 1, row = 1, columnspan=2, rowspan = 7, padx = 15)
 btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
 btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
 #-----------------------main def--------------------------------------
-CambiarVentanaPrincipal()
+# CambiarVentanaPrincipal()
+CambiarVentanaVideo()
 # CambiarInfPaciente() 
 
 ventana.mainloop()
