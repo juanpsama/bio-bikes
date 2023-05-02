@@ -1,5 +1,5 @@
 from tkinter import *
-from Pacientes import Paciente 
+import pacients 
 from videoManager import *
 
 ventana =  Tk()
@@ -13,7 +13,6 @@ ventanaCargarVideo = Frame(ventana)
 ventanaWebcam = Frame(ventana)
 ventanaInfPaciente = Frame(ventana)
 
-paciente = Paciente() 
 #Restricciones--------------------------------------------------------
 def validate_entry(text, new_text, digits):
     digits = int(digits)
@@ -27,7 +26,7 @@ def validate_entry_char(text):
         return False
     return True
 def textoDelCuadro():
-    global sexo, paciente
+    global sexo
     mandar = (cuadroNombre.get(), cuadroApellidos.get(), cuadroEdad.get(), cuadroPeso.get(), cuadroAltura.get(), sexo)
     aux_flag = True
     print(mandar)
@@ -36,14 +35,15 @@ def textoDelCuadro():
             aux_flag = False
             break
     if aux_flag:
-        paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
+        pacients.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
         ventana.title("Tipo de analisis del paciente")
         ventanaAnalisis.pack(fill='both', expand=1)
         ventanaPaciente.pack_forget()
     else:
         return
 # boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
-# boton1.grid(column = 0, row = 0, columnspan=2)    
+# boton1.grid(column = 0, row = 0, columnspan=2)  
+  
 ##Widgets de la ventana webcam------------------------------------------
 def CambiarVentanaWebcam():
     ventana.title("Grabar video")
@@ -79,6 +79,9 @@ LabelInfoVideoPath.grid(column = 1, row = 1)
 
 LabelVideo = Label(ventanaCargarVideo)
 LabelVideo.grid(column = 0, row = 2, columnspan=2)
+
+saveButton = Button(ventanaCargarVideo, text = 'Guardar', command = pacients.save_data)
+saveButton.grid(column = 0, row = 3, pady = 5)
 
 boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 boton1.grid(column = 0, row = 0, columnspan=2)
@@ -240,8 +243,8 @@ LabelVideo3.grid(column = 1, row = 1, columnspan=2, rowspan = 7, padx = 15)
 btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
 btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
 #-----------------------main def--------------------------------------
-# CambiarVentanaPrincipal()
-CambiarVentanaVideo()
+CambiarVentanaPrincipal()
+# CambiarVentanaVideo()
 # CambiarInfPaciente() 
 
 ventana.mainloop()

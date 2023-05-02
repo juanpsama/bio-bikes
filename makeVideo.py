@@ -1,8 +1,11 @@
 import cv2 as cv
 import random
 from statistics import fmean
-import mediapipe as mp
+
 import angles
+import pacients
+
+import mediapipe as mp
 from mediapipe.python.solutions.pose import PoseLandmark
 from mediapipe.python.solutions.drawing_utils import DrawingSpec
 mp_drawing = mp.solutions.drawing_utils
@@ -93,6 +96,7 @@ def processImage(image):
         # print(f'Angulo cadera: {hip_angle}')
     results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle}
     return results
+
 def processWebcam(image):
     results_processed = processImage(image)
     image_processed = results_processed['image']
@@ -100,6 +104,7 @@ def processWebcam(image):
         knee_angle = results_processed['knee_angle']  
         hip_angle = results_processed['hip_angle'] 
     return image_processed
+
 def processVideo(videoPath):
     global custom_connections, custom_style
     knee_angle = 0
@@ -159,7 +164,14 @@ def processVideo(videoPath):
     print(f'max knee angle: {max_knee_angle}')
     print(f'min knee angle: {min_knee_angle}')
     print(f'max hip angle: {max_hip_angle}')
-    print(f'min    hip angle: {min_hip_angle}')
+    print(f'min hip angle: {min_hip_angle}')
     print(f'average shoulder angle: {avg_shoulder_angle}')
+    pacients.set_goniometric_data(
+        url_video = result_path,
+        knee_min = min_knee_angle,
+        knee_max = max_knee_angle, 
+        hip_min = min_hip_angle,
+        hip_max = max_hip_angle, 
+        shoulder_avg = avg_shoulder_angle)
 
     return result_path

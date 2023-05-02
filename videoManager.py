@@ -58,7 +58,7 @@ def visualizar(LabelVideo, LabelInfoVideoPath):#leer el video
             if LabelInfoVideoPath != None:
                 LabelInfoVideoPath.configure(text = "Aún no se ha seleccionado un video")  #limpiar cuando se cierre el video
             LabelVideo.image = ""
-            cap.release()
+            cap.release()   
         
 def visualizarVideo(LabelVideo, LabelInfoVideoPath):
     global cap 

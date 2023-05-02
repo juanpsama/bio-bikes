@@ -4,25 +4,31 @@ connection = sqlite3.connect("database/BioBikes.db")
 cursor = connection.cursor()
 def get_last_id():
     return cursor.execute('''SELECT seq FROM sqlite_sequence WHERE name = "PACIENTES";''').fetchall()[0][0]
-def savePersonalData(name, last_name, bike, age, weight, height, gender):
+def save_database(pacient_data : dict ):
     global connection, cursor
     query = f"""INSERT INTO PACIENTES 
     (NAME , LAST_NAME,BIKE ,AGE , WEIGHT , HEIGHT, GENDER) 
     VALUES 
-    ('{name}', '{last_name}', '{bike}', {age}, {weight}, {height}, '{gender}' )"""
+    ('{pacient_data["name"]}', '{pacient_data["last_name"]}', '{pacient_data["bike"]}', {pacient_data["age"]}, {pacient_data["weight"]}, {pacient_data["height"]}, '{pacient_data["gender"]}')"""
     cursor.execute(query)
-    connection.commit()
-    # connection.close()  
-def saveParametrosData(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg):
-    global connection, cursor
     last_id = int(get_last_id())
     query = f"""INSERT INTO PARAMETROS 
         (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG) 
         VALUES 
-        ({last_id}, 'videos_out/{url_video}', {knee_min}, {knee_max}, {hip_min}, {hip_max}, {shoulder_avg})"""
+        ({last_id}, 'videos_out/{pacient_data["url_video"]}', {pacient_data["knee_min"]}, {pacient_data["knee_max"]}, {pacient_data["hip_min"]}, {pacient_data["hip_max"]}, {pacient_data["shoulder_avg"]})"""
     cursor.execute(query)
     connection.commit()
-  
+    # connection.close()  
+
+# def saveParametrosData(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg):
+#     global connection, cursor
+#     last_id = int(get_last_id())
+#     query = f"""INSERT INTO PARAMETROS 
+#         (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG) 
+#         VALUES 
+#         ({last_id}, 'videos_out/{url_video}', {knee_min}, {knee_max}, {hip_min}, {hip_max}, {shoulder_avg})"""
+#     cursor.execute(query)
+#     connection.commit()
 # def savePersonalData(name, last_name, bike, knee_ext, knee_flex, hip_ext, hip_flex, shoulder_mean, video_url):
 #     global connection, cursor
 #     query = f"""INSERT INTO PACIENTES 
@@ -32,6 +38,7 @@ def saveParametrosData(url_video, knee_min, knee_max, hip_min, hip_max, shoulder
 #     cursor.execute(query)
 #     connection.commit()
 #     # connection.close()  
+  
   
 # Creating table
 # table = """CREATE TABLE PACIENTES (
