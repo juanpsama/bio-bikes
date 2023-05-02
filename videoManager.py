@@ -4,8 +4,6 @@ from PIL import Image
 from PIL import ImageTk
 import cv2
 from makeVideo import *
-
-
 def iniciarMostrar(LabelVideo, video_path):
     global cap
     cap = cv2.VideoCapture(video_path)
