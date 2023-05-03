@@ -57,6 +57,7 @@ def processImage(image):
     global pose
     knee_angle = None
     hip_angle = None
+    shoulder_angle = None
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
     results = pose.process(image)

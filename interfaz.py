@@ -246,5 +246,7 @@ btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
 CambiarVentanaPrincipal()
 # CambiarVentanaVideo()
 # CambiarInfPaciente() 
+# CambiarVentanaWebcam()
+
 
 ventana.mainloop()
