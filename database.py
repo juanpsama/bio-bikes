@@ -19,6 +19,12 @@ def save_database(pacient_data : dict ):
     cursor.execute(query)
     connection.commit()
     # connection.close()  
+def consult_db(ID_paciente):
+    query_pacientes = f"""SELECT * FROM PACIENTES WHERE ID = {ID_paciente} ;"""
+    query_parametros = f"""SELECT * FROM PARAMETROS WHERE ID_PACIENTE = {ID_paciente} ;"""
+    data_paciente = cursor.execute(query_pacientes)
+    data_parametros = cursor.execute(query_parametros)
+
 
 # def saveParametrosData(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg):
 #     global connection, cursor
@@ -63,7 +69,9 @@ def save_database(pacient_data : dict ):
 #     FOREIGN KEY(ID_PACIENTE) REFERENCES PACIENTES(ID) );"""
 # cursor.execute(table)
 
-
+cursor.execute('UPDATE sqlite_sequence SET seq = 1;')
+# cursor.execute('DELETE FROM PACIENTES;')
+# cursor.execute('DELETE FROM PARAMETROS;')
 # cursor.execute("""INSERT INTO PACIENTES 
 #     (NAME , LAST_NAME,BIKE ,AGE , WEIGHT , HEIGHT, GENDER) 
 #     VALUES 

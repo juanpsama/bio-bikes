@@ -12,6 +12,7 @@ ventanaOpcionVideo = Frame(ventana)
 ventanaCargarVideo = Frame(ventana)
 ventanaWebcam = Frame(ventana)
 ventanaInfPaciente = Frame(ventana)
+ventanaSelectInfPaciente = Frame(ventana)
 
 #Restricciones--------------------------------------------------------
 def validate_entry(text, new_text, digits):
@@ -43,7 +44,27 @@ def textoDelCuadro():
         return
 # boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 # boton1.grid(column = 0, row = 0, columnspan=2)  
-  
+##Widgets de la ventana webcam------------------------------------------
+def CambiarVentanaWebcam():
+    ventana.title("Grabar video")
+    ventana.geometry("640x500")
+    ventanaWebcam.pack(fill='both', expand=1)
+    ventanaOpcionVideo.pack_forget()
+
+
+btnIniciar = Button(ventanaWebcam, text="Iniciar", width=45, command = lambda: iniciar(LabelVideoWebcam))
+btnIniciar.grid(column=0, row=0, padx=5, pady=5)
+
+btnFinalizar = Button(ventanaWebcam, text="Finalizar", width=45, command = lambda: finalizar() )
+btnFinalizar.grid(column=1, row=0, padx=5, pady=5)
+
+LabelVideoWebcam = Label(ventanaWebcam)
+LabelVideoWebcam.grid(column=0, row=1, columnspan=2)
+
+# boton1 = Button(ventanaWebcam, text = "Iniciar grabacion", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
+# boton1.grid(column = 0, row = 0, columnspan=2)
+
+##Widgets de la ventana video------------------------------------------  
 ##Widgets de la ventana webcam------------------------------------------
 def CambiarVentanaWebcam():
     ventana.title("Grabar video")

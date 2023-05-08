@@ -45,7 +45,11 @@ excluded_landmarks = [
     PoseLandmark.LEFT_EYE_OUTER,
     PoseLandmark.NOSE,
     PoseLandmark.MOUTH_RIGHT,
-    PoseLandmark.MOUTH_LEFT ]
+    PoseLandmark.MOUTH_LEFT,
+    PoseLandmark.LEFT_HEEL,
+    PoseLandmark.LEFT_ANKLE,
+    PoseLandmark.LEFT_FOOT_INDEX,
+    PoseLandmark.LEFT_KNEE]
 
 for landmark in excluded_landmarks:
     # we change the way the excluded landmarks are drawn
