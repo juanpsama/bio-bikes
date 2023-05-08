@@ -1,4 +1,4 @@
-from database import *
+from db_manager import *
 
 pacient_data = {}
 def set_personal_data(name, last_name, bike, age, weight, height, gender):
