@@ -35,17 +35,17 @@ custom_connections = list(mp_pose.POSE_CONNECTIONS)
 
 # list of landmarks to exclude from the drawing
 excluded_landmarks = [
-    PoseLandmark.LEFT_EYE, 
     PoseLandmark.RIGHT_EYE, 
-    PoseLandmark.LEFT_EYE_INNER, 
+    PoseLandmark.LEFT_EYE, 
     PoseLandmark.RIGHT_EYE_INNER, 
-    PoseLandmark.LEFT_EAR,
+    PoseLandmark.LEFT_EYE_INNER, 
     PoseLandmark.RIGHT_EAR,
-    PoseLandmark.LEFT_EYE_OUTER,
+    PoseLandmark.LEFT_EAR,
     PoseLandmark.RIGHT_EYE_OUTER,
+    PoseLandmark.LEFT_EYE_OUTER,
     PoseLandmark.NOSE,
-    PoseLandmark.MOUTH_LEFT,
-    PoseLandmark.MOUTH_RIGHT ]
+    PoseLandmark.MOUTH_RIGHT,
+    PoseLandmark.MOUTH_LEFT ]
 
 for landmark in excluded_landmarks:
     # we change the way the excluded landmarks are drawn
@@ -92,7 +92,7 @@ def processImage(image):
 
         cv.putText(image, f'Rodilla: {round(knee_angle, 3)}', (knee[0] + 50 , knee[1] ), cv.FONT_ITALIC, 1.0, color_flag_knee, thickness = 2)
         cv.putText(image, f'Cadera: {round(hip_angle, 3)}', (hip[0] - 150 , hip[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
-        cv.putText(image, f'Cadera: {round(shoulder_angle, 3)}', (shoulder[0] - 150 , shoulder[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
+        cv.putText(image, f'hombro: {round(shoulder_angle, 3)}', (shoulder[0] - 150 , shoulder[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
         # print(f'Angulo rodilla: {knee_angle}')
         # print(f'Angulo cadera: {hip_angle}')
     results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle}
