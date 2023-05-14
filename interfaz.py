@@ -45,26 +45,27 @@ def textoDelCuadro():
 # boton1 = Button(ventanaCargarVideo, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
 # boton1.grid(column = 0, row = 0, columnspan=2)  
 ##Widgets de la ventana webcam------------------------------------------
-def CambiarVentanaWebcam():
-    ventana.title("Grabar video")
+def CambiarVentanaSelectInfPaciente():
+    ventana.title("Seleccione paciente")
     ventana.geometry("640x500")
-    ventanaWebcam.pack(fill='both', expand=1)
+    ventanaSelectInfPaciente.pack(fill='both', expand=1)
     ventanaOpcionVideo.pack_forget()
+cuadroIdPaciente =  Entry(
+    ventanaSelectInfPaciente,
+    validate="key",
+    validatecommand=(ventanaPaciente.register(validate_entry), "%S", "%P", 3)
+)
+cuadroIdPaciente.grid(row =0, column = 1)
 
+btnFinalizar = Button(ventanaSelectInfPaciente, text="Seleccionar", width=45)
+btnFinalizar.grid(column=1, row=1, padx=5, pady=5)
 
-btnIniciar = Button(ventanaWebcam, text="Iniciar", width=45, command = lambda: iniciar(LabelVideoWebcam))
-btnIniciar.grid(column=0, row=0, padx=5, pady=5)
+LabelVideoWebcam = Label(ventanaSelectInfPaciente, text = 'Ingresa ID del paciente a visualizar')
+LabelVideoWebcam.grid(column=0, row=0)
 
-btnFinalizar = Button(ventanaWebcam, text="Finalizar", width=45, command = lambda: finalizar() )
-btnFinalizar.grid(column=1, row=0, padx=5, pady=5)
+LabelSuccesfull = Label(ventanaSelectInfPaciente, text = 'Encontrado')
+LabelSuccesfull.grid(column=0, row=1)
 
-LabelVideoWebcam = Label(ventanaWebcam)
-LabelVideoWebcam.grid(column=0, row=1, columnspan=2)
-
-# boton1 = Button(ventanaWebcam, text = "Iniciar grabacion", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
-# boton1.grid(column = 0, row = 0, columnspan=2)
-
-##Widgets de la ventana video------------------------------------------  
 ##Widgets de la ventana webcam------------------------------------------
 def CambiarVentanaWebcam():
     ventana.title("Grabar video")
@@ -235,7 +236,7 @@ def CambiarInfPaciente():
     ventanaPrincipal.pack_forget()
     iniciarMostrar(LabelVideo3, 'videos_out/video_prueba56.avi')
 boton1 =  Button(ventanaPrincipal, text = "Nuevo paciente", width = 20, height = 5, command = CambiarVentanaPaciente)
-boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20, height = 5, command = CambiarInfPaciente)
+boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20, height = 5, command = CambiarVentanaSelectInfPaciente)
 boton1.place(x = 180, y = 100)
 boton2.place(x = 180, y = 250)
 ##Widgets de la ventana info paciente------------------------------------------
@@ -264,8 +265,9 @@ LabelVideo3.grid(column = 1, row = 1, columnspan=2, rowspan = 7, padx = 15)
 btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
 btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
 #-----------------------main def--------------------------------------
-# CambiarVentanaPrincipal()
-CambiarVentanaVideo()
+CambiarVentanaPrincipal()
+# CambiarVentanaVideo()
+# CambiarVentanaSelectInfPaciente()
 # CambiarInfPaciente() 
 # CambiarVentanaWebcam()
 
