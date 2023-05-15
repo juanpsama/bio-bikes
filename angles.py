@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import math
 
@@ -42,29 +41,5 @@ def getAnglesBetweenPoints(central_point , first_point, second_point):
     # return abs(angle)
     return angle
     
-
-x = [319, 366, 347]
-y = [-246, -341, -456]
-
-# ax.plot(x, y);  # Plot some data on the axes.
-# ax.axis('equal')
-
-# sagital_14:
-# Rodilla: [424.14544546604156, 312.80561780929565]
-# Tobillo: [372.6763038635254, 407.8215112686157]
-# Cadera: [270.82268607616425, 270.82268607616425]
-# Angulo: -38.05713711134102
-# sagital_12: el angulo se toma al revez checar eso 
-# Rodilla: [366.4123131632805, 341.4016273021698]
-# Tobillo: [347.3477544784546, 456.6890435218811]
-# Cadera: [319.75472831726074, 246.37444746494293]
-# Angulo: 35.540438105555296
-     
-#angulo = getAnglesBetweenPoints((x[1],y[1]), (x[0],y[0]), (x[2],y[2]) )
-#print(f'Angulo: {angulo}')
-# print(f'pendiente 1:{pendientes[0]}') 
-# print(f'pendiente 2:{pendientes[1]}') 
-
-# plt.show()
 
 
