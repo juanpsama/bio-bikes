@@ -18,8 +18,8 @@ def getAnglesBetweenPoints(central_point , first_point, second_point):
         tan_alpha = (central_point[1] - first_point[1])/(central_point[0] - first_point[0])   
         angle = 90 - math.degrees(math.atan(tan_alpha))
     elif(first_point[0] - central_point[0]) == 0:
-        tan_alpha = (central_point[1] - second_point[1])/(central_point[0] - second_point[0])   
-        angle = 90 - math.degrees(math.atan(tan_alpha))
+        tan_alpha = (central_point[1] - second_point[1]) / (central_point[0] - second_point[0])   
+        angle = 90 + math.degrees(math.atan(tan_alpha))
     else:
         pendiente_1 = (first_point[1] - central_point[1])/(first_point[0] - central_point[0])
         pendiente_2 = (second_point[1] - central_point[1])/(second_point[0] - central_point[0])  

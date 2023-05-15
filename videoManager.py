@@ -35,8 +35,10 @@ def visualizarWebcam(LabelVideo):
 
                 if knee_angle > max_knee_angle:
                     max_knee_angle = knee_angle
+                    cv.imwrite(f'out/max_angle{rand_name_file}.png', data['image'])
                 if knee_angle < min_knee_angle:
                     min_knee_angle = knee_angle
+                    cv.imwrite(f'out/min_angle{rand_name_file}.png', data['image'])
                 if hip_angle > max_hip_angle:
                     max_hip_angle = hip_angle
                 if hip_angle < min_hip_angle:
@@ -55,7 +57,7 @@ def visualizarWebcam(LabelVideo):
             cap.release()
 
 def iniciar(LabelVideo):
-    global cap, result, result_path
+    global cap, result, result_path, rand_name_file
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))

@@ -22,7 +22,8 @@ def reescaleFrame(frame, scale = 0.75):
 #model declaration
 pose = mp_pose.Pose(
     min_detection_confidence=0.5,
-    min_tracking_confidence=0.5,
+    min_tracking_confidence=0.7,
+    model_complexity=2,
     smooth_landmarks = True)
 
 color_flag_knee = (150,25,255)
@@ -88,6 +89,7 @@ def processImage(image):
         knee_angle = angles.getAnglesBetweenPoints(knee, ankle, hip)
         hip_angle = angles.getAnglesBetweenPoints(hip, shoulder, knee)
         shoulder_angle = angles.getAnglesBetweenPoints(hip, shoulder, wrist)
+        # print(f'{knee} {ankle} {hip}')
 
         if knee_angle < 150 and knee_angle > 67:
             color_flag_knee = (0,255,0) 
@@ -99,16 +101,16 @@ def processImage(image):
         cv.putText(image, f'hombro: {round(shoulder_angle, 3)}', (shoulder[0] - 150 , shoulder[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
         # print(f'Angulo rodilla: {knee_angle}')
         # print(f'Angulo cadera: {hip_angle}')
-    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle}
+    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle, 'hip_height': hip[1]}
     return results
 
-def processWebcam(image):
-    results_processed = processImage(image)
-    image_processed = results_processed['image']
-    if results_processed['knee_angle']  != None:
-        knee_angle = results_processed['knee_angle']  
-        hip_angle = results_processed['hip_angle'] 
-    return image_processed
+# def processWebcam(image):
+#     results_processed = processImage(image)
+#     image_processed = results_processed['image']
+#     if results_processed['knee_angle']  != None:
+#         knee_angle = results_processed['knee_angle']  
+#         hip_angle = results_processed['hip_angle'] 
+#     return image_processed
 
 def processVideo(videoPath):
     global custom_connections, custom_style
@@ -126,7 +128,7 @@ def processVideo(videoPath):
     size = (frame_width, frame_height)
     # print(videoPath)
     rand_name_file = random.randint(2,100)
-    result_path = f'videos_out/video_prueba{rand_name_file}.avi'
+    result_path = f'videos_out/video_prueba_{rand_name_file}.avi'
     result = cv.VideoWriter(result_path,
 						    cv.VideoWriter_fourcc(*'MJPG'),
 						    20, 
@@ -147,9 +149,10 @@ def processVideo(videoPath):
 
         if knee_angle > max_knee_angle:
             max_knee_angle = knee_angle
+            cv.imwrite(f'out/max_angle_{rand_name_file}.png', results_processed['image'])
         if knee_angle < min_knee_angle:
             min_knee_angle = knee_angle
-
+            cv.imwrite(f'out/min_angle_{rand_name_file}.png', results_processed['image'])
         if hip_angle > max_hip_angle:
             max_hip_angle = hip_angle
         if hip_angle < min_hip_angle:
