@@ -15,15 +15,20 @@ def save_database(pacient_data : dict ):
     query = f"""INSERT INTO PARAMETROS 
         (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG) 
         VALUES 
-        ({last_id}, 'videos_out/{pacient_data["url_video"]}', {pacient_data["knee_min"]}, {pacient_data["knee_max"]}, {pacient_data["hip_min"]}, {pacient_data["hip_max"]}, {pacient_data["shoulder_avg"]})"""
+        ({last_id}, '{pacient_data["url_video"]}', {pacient_data["knee_min"]}, {pacient_data["knee_max"]}, {pacient_data["hip_min"]}, {pacient_data["hip_max"]}, {pacient_data["shoulder_avg"]})"""
     cursor.execute(query)
     connection.commit()
     # connection.close()  
 def consult_db(ID_paciente):
+    
     query_pacientes = f"""SELECT * FROM PACIENTES WHERE ID = {ID_paciente} ;"""
     query_parametros = f"""SELECT * FROM PARAMETROS WHERE ID_PACIENTE = {ID_paciente} ;"""
-    data_paciente = cursor.execute(query_pacientes)
-    data_parametros = cursor.execute(query_parametros)
+    data_paciente = cursor.execute(query_pacientes).fetchall()[0]
+    data_parametros = cursor.execute(query_parametros).fetchall()[0]
+    data = (data_paciente, data_parametros)
+    # print(data)
+    return data
+    
 
 
 # def saveParametrosData(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg):
@@ -69,7 +74,7 @@ def consult_db(ID_paciente):
 #     FOREIGN KEY(ID_PACIENTE) REFERENCES PACIENTES(ID) );"""
 # cursor.execute(table)
 
-cursor.execute('UPDATE sqlite_sequence SET seq = 1;')
+# cursor.execute('UPDATE sqlite_sequence SET seq = 7;')
 # cursor.execute('DELETE FROM PACIENTES;')
 # cursor.execute('DELETE FROM PARAMETROS;')
 # cursor.execute("""INSERT INTO PACIENTES 

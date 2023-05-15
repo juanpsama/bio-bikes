@@ -114,14 +114,21 @@ def processImage(image):
 
 def processVideo(videoPath):
     global custom_connections, custom_style
+    #Goniometric variables
     knee_angle = 0
     hip_angle = 0
+    #max and min values of goniometric variables
     max_knee_angle = 0 
     min_knee_angle = 400
     max_hip_angle = 0 
     min_hip_angle = 400
     avg_shoulder_angle = None
     shoulder_angles = []
+    #hip traslation variable
+    max_hip_height = 0 
+    min_hip_height = 4000
+    hip_height_diff = 0
+    
     cap = cv.VideoCapture(videoPath)
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
@@ -146,6 +153,7 @@ def processVideo(videoPath):
             hip_angle = results_processed['hip_angle'] 
             shoulder_angle = results_processed['shoulder_angle']
             shoulder_angles.append(shoulder_angle)
+            hip_height= results_processed['hip_height']
 
         if knee_angle > max_knee_angle:
             max_knee_angle = knee_angle
@@ -153,10 +161,16 @@ def processVideo(videoPath):
         if knee_angle < min_knee_angle:
             min_knee_angle = knee_angle
             cv.imwrite(f'out/min_angle_{rand_name_file}.png', results_processed['image'])
+        
         if hip_angle > max_hip_angle:
             max_hip_angle = hip_angle
         if hip_angle < min_hip_angle:
             min_hip_angle = hip_angle
+
+        if hip_height > max_hip_height:
+            max_hip_height = hip_height
+        if hip_angle < min_hip_height:
+            min_hip_height = hip_height
 
 
         result.write(image_processed)
@@ -168,11 +182,15 @@ def processVideo(videoPath):
             break
 
     cap.release()
+    #this hip difference the less the better, gives an indicator of bad position
+    hip_height_diff = max_hip_height - min_hip_height
     avg_shoulder_angle = fmean(shoulder_angles)
+
     print(f'max knee angle: {max_knee_angle}')
     print(f'min knee angle: {min_knee_angle}')
     print(f'max hip angle: {max_hip_angle}')
     print(f'min hip angle: {min_hip_angle}')
+    print(f'hip height difference: {hip_height_diff}')
     print(f'average shoulder angle: {avg_shoulder_angle}')
     pacients.set_goniometric_data(
         url_video = result_path,

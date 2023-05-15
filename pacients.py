@@ -24,3 +24,27 @@ def save_data():
     global pacient_data
     save_database(pacient_data)
     pacient_data = {}
+def get_pacient_data(ID):
+    global pacient_data
+    data = consult_db(ID)
+    #personal data
+    pacient_data['name'] = data[0][1]
+    pacient_data['last_name'] = data[0][2]
+    pacient_data['bike'] = data[0][3]
+    pacient_data['age'] = data[0][4]
+    pacient_data['weight'] = data[0][5]
+    pacient_data['height'] = data[0][6]
+    pacient_data['gender'] = data[0][7]
+    #cinematic data
+    pacient_data['url_video'] = data[1][1]
+    pacient_data['knee_min'] = data[1][2]
+    pacient_data['knee_max'] = data[1][3]
+    pacient_data['hip_min'] = data[1][4]
+    pacient_data['hip_max'] =  data[1][5]
+    pacient_data['shoulder_avg'] = data[1][6]
+    img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '').replace('prueba', '')
+    # img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '') para la nueva nomenclatura de nombrado
+    pacient_data['img_id'] = img_id
+
+    return pacient_data
+
