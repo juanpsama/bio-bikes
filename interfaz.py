@@ -86,12 +86,14 @@ def CambiarVentanaPrincipal():
 
 def CambiarInfPaciente():
     ventana.title("Cargar Video")
-    ventana.geometry("750x500")
+    ventana.geometry("1080x550")
     ventanaInfPaciente.pack(fill='both', expand=1)
     ventanaPrincipal.pack_forget()
-    iniciarMostrar(LabelVideo3, 'videos_out/video_prueba3.avi')
+    iniciarMostrar(LabelVideo3, 'videos_out/video_prueba_59.avi')
+    visualizarImagen(etiquetaImagenMax, 'out/max_angle_59.png')
+    visualizarImagen(etiquetaImagenMin, 'out/min_angle_59.png')
 ##Widgets de cada pantalla
-##Widgets de la ventana webcam------------------------------------------
+##Widgets de la ventana select paciente------------------------------------------
 cuadroIdPaciente =  Entry(
     ventanaSelectInfPaciente,
     validate="key",
@@ -246,35 +248,76 @@ boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20
 boton1.place(x = 180, y = 100)
 boton2.place(x = 180, y = 250)
 ##Widgets de la ventana info paciente------------------------------------------
-LabelInf1 = Label(ventanaInfPaciente, text = "Datos de paciente:", font=("Arial", 18), padx=5, pady=5)
-LabelInf1.grid(column = 0, row= 0, columnspan= 3)
+LabelInf1 = Label(ventanaInfPaciente, text = "Datos de paciente", font=("Arial", 18))
+LabelInf1.grid(column = 0, row= 0, padx=10)
 
-NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose")
-NombreEtiqueta.grid(row = 1, column = 0, padx=5)
-ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Ancheyta Lopez")    
-ApellidoEtiqueta.grid(row = 2, column = 0, padx=5)
-BicicletaEtiqueta =  Label(ventanaInfPaciente, text = "Bicicleta: Mercurio Ranger")    
-BicicletaEtiqueta.grid(row = 3, column = 0, padx=5)
-EdadEtiqueta =  Label(ventanaInfPaciente, text = "Edad: 21")    #solo admitira 2 numeros  
+LabelInf2 = Label(ventanaInfPaciente, text = "Datos goniometricos", font=("Arial", 18), padx=200, pady=5)
+LabelInf2.grid(column = 1, row= 0, columnspan=3)
+
+IdEtiqueta =  Label(ventanaInfPaciente, text = "ID: " + "", anchor='e', justify='right')
+IdEtiqueta.grid(row = 1, column = 0, padx=5)
+NombreEtiqueta =  Label(ventanaInfPaciente, text = "Nombre: Juan Jose" + "")
+NombreEtiqueta.grid(row = 2, column = 0, padx=5)
+ApellidoEtiqueta =  Label(ventanaInfPaciente, text = "Apellido: Ancheyta Lopez" + "")    
+ApellidoEtiqueta.grid(row = 3, column = 0, padx=5)
+EdadEtiqueta =  Label(ventanaInfPaciente, text = "Edad: 21"+ "", anchor='e', justify='right')    #solo admitira 2 numeros  
 EdadEtiqueta.grid(row = 4, column = 0, padx=5)
-PesoEtiqueta =  Label(ventanaInfPaciente, text = "Peso: 70 kg")    #solo admitira 3 numeros 
-PesoEtiqueta.grid(row = 5, column = 0, padx=5)
-AlturaEtiqueta =  Label(ventanaInfPaciente, text = "Altura: 170 cm")  #valor en centimetros
-AlturaEtiqueta.grid(row = 6, column = 0)
-SexoEtiqueta =  Label(ventanaInfPaciente, text = "Sexo: Masculino")   #solo permitira seleccionar 1 parametro de dos 
-SexoEtiqueta.grid(row = 7, column=0, padx=5)
+AlturaEtiqueta =  Label(ventanaInfPaciente, text = "Altura: 21" + "")    #solo admitira 2 numeros  
+AlturaEtiqueta.grid(row = 5, column = 0, padx=5)
+etiquetaAjuste = Label(ventanaInfPaciente, text = "Ajustes", bg='red', font=("Arial", 12))
+etiquetaAjuste.grid(column = 0, row=6, pady=5)
+etiquetaAjusteRecomendado = Label(ventanaInfPaciente, text = "Ej. Bajar sillin")
+etiquetaAjusteRecomendado.grid(column = 0, row=7, padx=(15,0), pady=5)
 
-#  paciente.set_personal_data(cuadroNombre.get(), cuadroApellidos.get(),cuadroBicicleta.get(), int(cuadroEdad.get()), int(cuadroPeso.get()), int(cuadroAltura.get()), sexo)
+
+# ajustesButton = Button(ventanaInfPaciente, text="Ajustes", width=10, command = CambiarVentanaPrincipal)
+# ajustesButton.grid(column = 0, row=6, columnspan = 1, padx=5, pady=5)
+# bajarAlturaSillinBtn = Button(ventanaInfPaciente, text="Bajar la altura\ndel sillin", width=10, height=4, command = CambiarVentanaPrincipal)
+# bajarAlturaSillinBtn.grid(column = 0, row=7, columnspan = 1, padx=5, pady=5)
+analizarDeNuevoBtn = Button(ventanaInfPaciente, text="Analizar de nuevo", width=15, height=5, command = CambiarVentanaPrincipal)
+analizarDeNuevoBtn.grid(column = 0, row=8,rowspan=3, padx=5, pady=5)
+btnRegresar = Button(ventanaInfPaciente, text="Volver", width=15, command = CambiarVentanaPrincipal)
+btnRegresar.grid(column = 0, row=11,rowspan=3, pady=5)
+
+
+#botonVideo = Button(ventanaInfPaciente, text = "Elegir y Visualizar video", width = 20, height = 5, command = lambda: visualizarVideo(LabelVideo, LabelInfoVideoPath))
+#botonVideo.grid(column = 2, row = 2, columnspan=2)
+etiquetaVideo =  Label(ventanaInfPaciente, text = "Video procesado: ")    #solo admitira 2 numeros  
+etiquetaVideo.grid(column = 1, row = 1,  pady=5, padx=(0, 30))
 LabelVideo3 = Label(ventanaInfPaciente)
-LabelVideo3.grid(column = 1, row = 1, columnspan=2, rowspan = 7, padx = 15)
+LabelVideo3.grid(column = 1, row = 2, rowspan = 6, columnspan=2)
 
-btnRegresar = Button(ventanaInfPaciente, text="Volver", width=45, command = CambiarVentanaPrincipal)
-btnRegresar.grid(column = 1, row=8, columnspan = 2, padx=5, pady=5)
+AngulosEtiqueta =  Label(ventanaInfPaciente, text = "Angulos: " + "", anchor='e', justify='right')    #solo admitira 2 numeros  
+AngulosEtiqueta.grid(column = 1, row = 8)
+RodillaEtiqueta =  Label(ventanaInfPaciente, text = "Rodilla: " + "" + " - " + "")    #solo admitira 2 numeros  
+RodillaEtiqueta.grid(column = 1,row=9 ,padx=5)
+CaderaEtiqueta =  Label(ventanaInfPaciente, text = "Cadera: "+ "" + " - " + "")    #solo admitira 2 numeros  
+CaderaEtiqueta.grid(column = 1,row=10 ,padx=5)
+HombreEtiqueta =  Label(ventanaInfPaciente, text = "Hombro: "+ "" + " - " + "")    #solo admitira 2 numeros  
+HombreEtiqueta.grid(column = 1, row=11,padx=5)
+TrasCaderaEtiqueta =  Label(ventanaInfPaciente, text = "Traslacion de cadera:\n Vertical: " + "" + " - " + " Horizontal: " + "")    #solo admitira 2 numeros  
+TrasCaderaEtiqueta.grid(column = 1, row=12,padx=5)
+
+
+
+etiquetaRodilloMinimo =  Label(ventanaInfPaciente, text = "Angulo minimo de rodilla: " + "")    #solo admitira 2 numeros  
+etiquetaRodilloMinimo.grid(column = 3, row = 1,  pady=5)
+
+etiquetaImagenMin = Label(ventanaInfPaciente)
+etiquetaImagenMin.grid(column = 3, row = 2, rowspan = 4)
+
+etiquetaRodillaMaximo =  Label(ventanaInfPaciente, text = "Angulo maximo de rodilla: " + "")    #solo admitira 2 numeros  
+etiquetaRodillaMaximo.grid(column = 3, row = 6, pady=5)
+etiquetaImagenMax = Label(ventanaInfPaciente)
+etiquetaImagenMax.grid(column = 3, row = 7, rowspan=6)
+#image = PhotoImage(file="photos/fumo.png")
+#imagenLabel = Label(ventanaInfPaciente, image=image)
+#imagenLabel.grid(column=3, row=3)
 #-----------------------main def--------------------------------------
 # CambiarVentanaPrincipal()
-CambiarVentanaVideo()
+# CambiarVentanaVideo()
 # CambiarVentanaSelectInfPaciente()
-#CambiarInfPaciente() 
+CambiarInfPaciente() 
 # CambiarVentanaWebcam()
 
 

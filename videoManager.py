@@ -14,6 +14,12 @@ shoulder_angles = []
 result_path = None 
 result = None
 
+def reescaleFrame(frame, width = 480):
+    #works for live vide, video and image
+    heigth = int((frame.shape[0] / frame.shape[1]) * width)
+    dimensions = (width, heigth)
+    return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
+
 def iniciarMostrar(LabelVideo, video_path):
     global cap
     cap = cv2.VideoCapture(video_path)
@@ -91,13 +97,10 @@ def visualizar(LabelVideo, LabelInfoVideoPath):#leer el video
         ret, frame = cap.read()
         if ret == True:
             # frame = imutils.resize(frame, width = 640)
-            frame = cv2.resize(frame, (640, 360), interpolation = cv2.INTER_CUBIC)
+            frame = reescaleFrame(frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # frame = processImage(frame)
-            # cv2.imshow('hola', frame)
             im = Image.fromarray(frame)
             img = ImageTk.PhotoImage(image = im) #transformar cada fotograma a formato imageTK
-            
             LabelVideo.configure(image = img)
             LabelVideo.image = img
             LabelVideo.after(20, lambda: visualizar(LabelVideo, LabelInfoVideoPath)) #after, llama a cierta funcion (visualizar) despues de un delay en ms
@@ -128,6 +131,13 @@ def visualizarVideo(LabelVideo, LabelInfoVideoPath):
     else:
         LabelInfoVideoPath.configure(text = "Aún no se ha seleccionado un video")
 
-
+def visualizarImagen(LabelVideo, img_path):
+    frame = cv2.imread(img_path)
+    frame = reescaleFrame(frame,width = 360)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    im = Image.fromarray(frame)
+    img = ImageTk.PhotoImage(image = im) #transformar cada fotograma a formato imageTK
+    LabelVideo.configure(image = img)
+    LabelVideo.image = img
 cap = None 
 
