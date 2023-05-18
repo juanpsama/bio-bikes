@@ -101,7 +101,7 @@ def processImage(image):
         cv.putText(image, f'hombro: {round(shoulder_angle, 3)}', (shoulder[0] - 150 , shoulder[1] ), cv.FONT_ITALIC, 1.0, color_flag_hip, thickness = 2)
         # print(f'Angulo rodilla: {knee_angle}')
         # print(f'Angulo cadera: {hip_angle}')
-    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle, 'hip_height': hip[1]}
+    results = {'image' : image, 'knee_angle' : knee_angle, 'hip_angle' : hip_angle, 'shoulder_angle' : shoulder_angle, 'hip_height': hip[1], 'hip_move':hip[0]}
     return results
 
 # def processWebcam(image):
@@ -128,6 +128,10 @@ def processVideo(videoPath):
     max_hip_height = 0 
     min_hip_height = 4000
     hip_height_diff = 0
+
+    max_hip_move = 0 
+    min_hip_move = 4000
+    hip_move_diff = 0
     
     cap = cv.VideoCapture(videoPath)
     frame_width = int(cap.get(3))
@@ -154,6 +158,7 @@ def processVideo(videoPath):
             shoulder_angle = results_processed['shoulder_angle']
             shoulder_angles.append(shoulder_angle)
             hip_height= results_processed['hip_height']
+            hip_movement = results_processed['hip_move']
 
         if knee_angle > max_knee_angle:
             max_knee_angle = knee_angle
@@ -172,6 +177,10 @@ def processVideo(videoPath):
         if hip_angle < min_hip_height:
             min_hip_height = hip_height
 
+        if hip_movement > max_hip_move:
+            max_hip_move = hip_movement
+        if hip_movement < min_hip_move:
+            min_hip_move = hip_movement
 
         result.write(image_processed)
         # image_reescaled = reescaleFrame(image, scale = 0.5)
@@ -184,6 +193,7 @@ def processVideo(videoPath):
     cap.release()
     #this hip difference the less the better, gives an indicator of bad position
     hip_height_diff = max_hip_height - min_hip_height
+    hip_move_diff = max_hip_move - min_hip_move
     avg_shoulder_angle = fmean(shoulder_angles)
 
     print(f'max knee angle: {max_knee_angle}')
@@ -198,6 +208,8 @@ def processVideo(videoPath):
         knee_max = max_knee_angle, 
         hip_min = min_hip_angle,
         hip_max = max_hip_angle, 
-        shoulder_avg = avg_shoulder_angle)
+        shoulder_avg = avg_shoulder_angle,
+        hip_traslation_x = hip_move_diff, 
+        hip_traslation_y = hip_height_diff)
 
     return result_path

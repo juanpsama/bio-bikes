@@ -40,6 +40,13 @@ def getAnglesBetweenPoints(central_point , first_point, second_point):
     #      angle -= 180
     # return abs(angle)
     return angle
-    
+def ProcessAngles(knee_min, knee_max):
+    #Procesa los angulos para dar una recomendacion sobre la altura de sillin
+    MAX_KNEE = 170
+    MIN_KNEE = 65
+    if knee_min > MIN_KNEE or knee_max > MAX_KNEE:
+         return 'Bajar altura de sillin' 
+    if knee_min < MIN_KNEE :
+         return 'Subir altura de sillin' 
 
 

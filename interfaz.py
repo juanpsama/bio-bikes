@@ -1,6 +1,7 @@
 from tkinter import *
 import pacients 
 from videoManager import *
+import angles
 
 ventana =  Tk()
 ventana.title("Análisis Biomecánico")
@@ -59,6 +60,7 @@ def CambiarVentanaVideo():
     ventana.geometry("640x500")
     ventanaCargarVideo.pack(fill='both', expand=1)
     ventanaOpcionVideo.pack_forget()
+    ventanaInfPaciente.pack_forget()
 
 def CambiarVentanaOpcionVideo():
     ventana.title("Elegir opcion de video")
@@ -82,6 +84,7 @@ def CambiarVentanaPrincipal():
     ventana.geometry("500x500")
     ventanaPrincipal.pack(fill='both', expand=1)
     ventanaInfPaciente.pack_forget()
+    # boton2.place_forget()
     #order.pack_forget() para todas las demas ventanas hay que borrarlas con pack_forget()
 
 def CambiarInfPaciente(Id_paciente):
@@ -90,11 +93,12 @@ def CambiarInfPaciente(Id_paciente):
     ventana.geometry("1080x550")
     ventanaInfPaciente.pack(fill='both', expand=1)
     ventanaPrincipal.pack_forget()
+    ventanaCargarVideo.pack_forget()
     datos_paciente = pacients.get_pacient_data(Id_paciente)
-    ActualizarTextosInforme(datos_paciente)
+    ActualizarTextosInforme()
 
 
-def ActualizarTextosInforme(datos_paciente : dict):
+def ActualizarTextosInforme():
     #muestra el video en el labelvideo3
     iniciarMostrar(LabelVideo3, datos_paciente['url_video'])
     #muestra las imagenes en las etiquetas correspondientes
@@ -106,13 +110,11 @@ def ActualizarTextosInforme(datos_paciente : dict):
     ApellidoEtiqueta.configure(text = f"Apellido: {datos_paciente['last_name']}")
     EdadEtiqueta.configure(text = f"Edad: {datos_paciente['age']} años")
     AlturaEtiqueta.configure(text = f"Altura: {datos_paciente['height']} cm")
-    # etiquetaAjusteRecomendado.configure(text = f"Edad: {datos_paciente['age'] }")
     RodillaEtiqueta.configure(text = f"Rodilla: {datos_paciente['knee_min']} - {datos_paciente['knee_max']}") 
     CaderaEtiqueta.configure(text = f"Cadera: {datos_paciente['hip_min']} - {datos_paciente['hip_max']}")  
     HombroEtiqueta.configure(text = f"Hombro promedio: {datos_paciente['shoulder_avg']} ")  
-    # TrasCaderaEtiqueta 
-    # etiquetaRodilloMinimo  
-    # etiquetaRodillaMaximo 
+    etiquetaAjusteRecomendado.configure(text = angles.ProcessAngles(datos_paciente['knee_min'], datos_paciente['knee_max'])) 
+    TrasCaderaEtiqueta.configure(text = f"Traslacion de cadera:\n Vertical:{datos_paciente['hip_traslation_x']}  Horizontal:{datos_paciente['hip_traslation_y']}  ")
 def GuardarDatos():
     #Llama a pacients para que guarde los datos en la db 
     #Actualiza el labbel de guardado
@@ -120,8 +122,15 @@ def GuardarDatos():
         savedLabbel.configure(text = 'Ha ocurrido un error, no se han generado datos correctamente')
         if pacients.save_data():
             savedLabbel.configure(text = 'Los datos han sido guardados correctamente')
+            saveButton.grid(column = 2, row = 3, pady = 5)       
     except:
         savedLabbel.configure(text = 'Ha ocurrido un error, porfavor reinicie')
+def EjecutarAnalisisDenuevo():
+    savedLabbel.configure(text='')
+    saveButton.grid_forget()
+    pacients.set_personal_data(datos_paciente['name'], datos_paciente['last_name'],datos_paciente['bike'], datos_paciente['age'], datos_paciente['weigth'], datos_paciente['height'], datos_paciente['gender'])
+    CambiarVentanaVideo()
+
 ##Widgets de cada pantalla-------------------------------------------------------
 ##Widgets de la ventana select paciente------------------------------------------
 cuadroIdPaciente =  Entry(
@@ -144,7 +153,7 @@ LabelSuccesfull.grid(column=0, row=1)
 btnIniciar = Button(ventanaWebcam, text="Iniciar", width=45, command = lambda: iniciar(LabelVideoWebcam))
 btnIniciar.grid(column=0, row=0, padx=5, pady=5)
 
-btnFinalizar = Button(ventanaWebcam, text="Finalizar", width=45, command = lambda: finalizar() )
+btnFinalizar = Button(ventanaWebcam, text="Finalizar", width=45, command = finalizar )
 btnFinalizar.grid(column=1, row=0, padx=5, pady=5)
 
 LabelVideoWebcam = Label(ventanaWebcam)
@@ -166,6 +175,9 @@ LabelVideo.grid(column = 0, row = 2, columnspan=2)
 saveButton = Button(ventanaCargarVideo, text = 'Guardar', command = GuardarDatos)
 saveButton.grid(column = 0, row = 3, pady = 5)
 
+saveButton = Button(ventanaCargarVideo, text = 'Informe', command = lambda: CambiarInfPaciente(pacients.get_id()) )
+
+
 savedLabbel = Label(ventanaCargarVideo, text='')
 savedLabbel.grid(column = 1, row = 3, pady = 5, padx=5)
 
@@ -176,8 +188,8 @@ boton1.grid(column = 0, row = 0, columnspan=2)
 
 boton8 =  Button(ventanaOpcionVideo, text = "Seleccionar Video", width = 20, height = 5, command = CambiarVentanaVideo)
 boton9 =  Button(ventanaOpcionVideo, text = "Utilizar Webcam", width = 20, height = 5, command = CambiarVentanaWebcam)
-boton8.place(x = 180, y = 100)
-boton9.place(x = 180, y = 250)
+boton8.grid(row=0, column=0,padx=170, pady=50)
+boton9.grid(row=1, column=0,padx=170, pady=50)
 
 ##Widgets de la ventana analisis------------------------------------------
 
@@ -278,8 +290,8 @@ boton3.place(x = 250, y =150)
 
 boton1 =  Button(ventanaPrincipal, text = "Nuevo paciente", width = 20, height = 5, command = CambiarVentanaPaciente)
 boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20, height = 5, command = CambiarInfPaciente)
-boton1.place(x = 180, y = 100)
-boton2.place(x = 180, y = 250)
+boton1.grid(row=0, column=0,padx=170, pady=50)
+boton2.grid(row=1, column=0,padx=170, pady=50)
 ##Widgets de la ventana info paciente------------------------------------------
 LabelInf1 = Label(ventanaInfPaciente, text = "Datos de paciente", font=("Arial", 18))
 LabelInf1.grid(column = 0, row= 0, padx=10)
@@ -300,7 +312,7 @@ etiquetaAjuste = Label(ventanaInfPaciente, text = "Ajustes", bg='red', font=("Ar
 etiquetaAjuste.grid(column = 0, row=6, pady=5)
 etiquetaAjusteRecomendado = Label(ventanaInfPaciente, text = "Ej. Bajar sillin")
 etiquetaAjusteRecomendado.grid(column = 0, row=7, padx=(15,0), pady=5)
-analizarDeNuevoBtn = Button(ventanaInfPaciente, text="Analizar de nuevo", width=15, height=5, command = CambiarVentanaPrincipal)
+analizarDeNuevoBtn = Button(ventanaInfPaciente, text="Analizar de nuevo", width=15, height=5, command = EjecutarAnalisisDenuevo)
 analizarDeNuevoBtn.grid(column = 0, row=8,rowspan=3, padx=5, pady=5)
 btnRegresar = Button(ventanaInfPaciente, text="Volver", width=15, command = CambiarVentanaPrincipal)
 btnRegresar.grid(column = 0, row=11,rowspan=3, pady=5)
@@ -332,8 +344,8 @@ etiquetaRodillaMaximo.grid(column = 3, row = 6, pady=5)
 etiquetaImagenMax = Label(ventanaInfPaciente)
 etiquetaImagenMax.grid(column = 3, row = 7, rowspan=6)
 #-----------------------main def--------------------------------------
-# CambiarVentanaPrincipal()
-CambiarVentanaVideo()
+CambiarVentanaPrincipal()
+# CambiarVentanaVideo()
 # CambiarVentanaSelectInfPaciente()
 # CambiarInfPaciente(9) 
 # CambiarVentanaWebcam()

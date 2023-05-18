@@ -12,7 +12,7 @@ def set_personal_data(name, last_name, bike, age, weight, height, gender):
     pacient_data['gender'] = gender
     # savePersonalData(self.name, self.last_name, self.bike, self.age, self.weight, self.height, self.gender)
     # print(self.name, self.last_name)
-def set_goniometric_data(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg):
+def set_goniometric_data(url_video, knee_min, knee_max, hip_min, hip_max, shoulder_avg, hip_traslation_x, hip_traslation_y):
     global pacient_data
     pacient_data['url_video'] = url_video
     pacient_data['knee_min'] = knee_min
@@ -20,6 +20,8 @@ def set_goniometric_data(url_video, knee_min, knee_max, hip_min, hip_max, should
     pacient_data['hip_min'] = hip_min
     pacient_data['hip_max'] =  hip_max
     pacient_data['shoulder_avg'] = shoulder_avg
+    pacient_data["hip_traslation_x"] = hip_traslation_x
+    pacient_data["hip_traslation_y"] = hip_traslation_y
 def save_data():
     global pacient_data
     if pacient_data != {}:
@@ -27,6 +29,8 @@ def save_data():
         pacient_data = {}
         return True
     return False
+def get_id():
+    return get_last_id()
 def get_pacient_data(ID):
     global pacient_data
     data = consult_db(ID)
@@ -36,7 +40,7 @@ def get_pacient_data(ID):
     pacient_data['last_name'] = data[0][2]
     pacient_data['bike'] = data[0][3]
     pacient_data['age'] = data[0][4]
-    pacient_data['weight'] = data[0][5]
+    pacient_data['weigth'] = data[0][5]
     pacient_data['height'] = data[0][6]
     pacient_data['gender'] = data[0][7]
     #Cinematic data
@@ -46,8 +50,10 @@ def get_pacient_data(ID):
     pacient_data['hip_min'] = round(data[1][4],3)
     pacient_data['hip_max'] =  round(data[1][5],3)
     pacient_data['shoulder_avg'] = round(data[1][6],3)
-    img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '').replace('prueba', '')
-    # img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '') para la nueva nomenclatura de nombrado
+    pacient_data['hip_traslation_x'] = data[1][7]
+    pacient_data['hip_traslation_y'] = data[1][8]
+    #img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '').replace('prueba', '')
+    img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '') 
     pacient_data['url_img_max'] = f"img_out/max_angle_{img_id}.png"
     pacient_data['url_img_min'] = f"img_out/min_angle_{img_id}.png"
 

@@ -13,14 +13,13 @@ def save_database(pacient_data : dict ):
     cursor.execute(query)
     last_id = int(get_last_id())
     query = f"""INSERT INTO PARAMETROS 
-        (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG) 
+        (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG, HIP_TRASLATION_X, HIP_TRASLATION_Y) 
         VALUES 
-        ({last_id}, '{pacient_data["url_video"]}', {pacient_data["knee_min"]}, {pacient_data["knee_max"]}, {pacient_data["hip_min"]}, {pacient_data["hip_max"]}, {pacient_data["shoulder_avg"]})"""
+        ({last_id}, '{pacient_data["url_video"]}', {pacient_data["knee_min"]}, {pacient_data["knee_max"]}, {pacient_data["hip_min"]}, {pacient_data["hip_max"]}, {pacient_data["shoulder_avg"]}, {pacient_data["hip_traslation_x"]}, {pacient_data["hip_traslation_y"]})"""
     cursor.execute(query)
     connection.commit()
     # connection.close()  
-def consult_db(ID_paciente):
-    
+def consult_db(ID_paciente):  
     query_pacientes = f"""SELECT * FROM PACIENTES WHERE ID = {ID_paciente} ;"""
     query_parametros = f"""SELECT * FROM PARAMETROS WHERE ID_PACIENTE = {ID_paciente} ;"""
     data_paciente = cursor.execute(query_pacientes).fetchall()[0]
@@ -71,10 +70,12 @@ def consult_db(ID_paciente):
 #     HIP_MIN FLOAT(3),
 #     HIP_MAX FLOAT(3), 
 #     SHOULDER_AVG FLOAT(3),
+#     HIP_TRASLATION_X FLOAT(3),
+#     HIP_TRASLATION_Y FLOAT(3),
 #     FOREIGN KEY(ID_PACIENTE) REFERENCES PACIENTES(ID) );"""
 # cursor.execute(table)
 
-# cursor.execute('UPDATE sqlite_sequence SET seq = 7;')
+# cursor.execute('UPDATE sqlite_sequence SET seq = 1;')
 # cursor.execute('DELETE FROM PACIENTES;')
 # cursor.execute('DELETE FROM PARAMETROS;')
 # cursor.execute("""INSERT INTO PACIENTES 
@@ -89,7 +90,8 @@ def consult_db(ID_paciente):
 
 # saveData('Juan Jose','Ancheyta', 'Ranger', 140.22, 23.1, 140.22, 23.1, 45.3, 'video/video_prueba13.avi')
 # print("Data Inserted in the table: ")
-# data = cursor.execute('''DROP TABLE parametros;''')
+# cursor.execute('''DROP TABLE PACIENTES;''')
+# cursor.execute('''DROP TABLE PARAMETROS;''')
 # data = cursor.execute('''SELECT seq FROM sqlite_sequence WHERE name = "PACIENTES";''')
 # print(data.fetchall()[0][0])
 # for row in data:
