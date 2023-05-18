@@ -22,12 +22,16 @@ def set_goniometric_data(url_video, knee_min, knee_max, hip_min, hip_max, should
     pacient_data['shoulder_avg'] = shoulder_avg
 def save_data():
     global pacient_data
-    save_database(pacient_data)
-    pacient_data = {}
+    if pacient_data != {}:
+        save_database(pacient_data)
+        pacient_data = {}
+        return True
+    return False
 def get_pacient_data(ID):
     global pacient_data
     data = consult_db(ID)
     #personal data
+    pacient_data['id'] = ID
     pacient_data['name'] = data[0][1]
     pacient_data['last_name'] = data[0][2]
     pacient_data['bike'] = data[0][3]
@@ -35,16 +39,17 @@ def get_pacient_data(ID):
     pacient_data['weight'] = data[0][5]
     pacient_data['height'] = data[0][6]
     pacient_data['gender'] = data[0][7]
-    #cinematic data
+    #Cinematic data
     pacient_data['url_video'] = data[1][1]
-    pacient_data['knee_min'] = data[1][2]
-    pacient_data['knee_max'] = data[1][3]
-    pacient_data['hip_min'] = data[1][4]
-    pacient_data['hip_max'] =  data[1][5]
-    pacient_data['shoulder_avg'] = data[1][6]
+    pacient_data['knee_min'] = round(data[1][2], 3)
+    pacient_data['knee_max'] = round(data[1][3], 3)
+    pacient_data['hip_min'] = round(data[1][4],3)
+    pacient_data['hip_max'] =  round(data[1][5],3)
+    pacient_data['shoulder_avg'] = round(data[1][6],3)
     img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '').replace('prueba', '')
     # img_id = data[1][1].split('/')[-1].split('_')[-1].replace('.avi', '') para la nueva nomenclatura de nombrado
-    pacient_data['img_id'] = img_id
+    pacient_data['url_img_max'] = f"img_out/max_angle_{img_id}.png"
+    pacient_data['url_img_min'] = f"img_out/min_angle_{img_id}.png"
 
     return pacient_data
 

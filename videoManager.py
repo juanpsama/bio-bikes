@@ -41,10 +41,10 @@ def visualizarWebcam(LabelVideo):
 
                 if knee_angle > max_knee_angle:
                     max_knee_angle = knee_angle
-                    cv.imwrite(f'out/max_angle{rand_name_file}.png', data['image'])
+                    cv.imwrite(f'img_out/max_angle{rand_name_file}.png', data['image'])
                 if knee_angle < min_knee_angle:
                     min_knee_angle = knee_angle
-                    cv.imwrite(f'out/min_angle{rand_name_file}.png', data['image'])
+                    cv.imwrite(f'img_out/min_angle{rand_name_file}.png', data['image'])
                 if hip_angle > max_hip_angle:
                     max_hip_angle = hip_angle
                 if hip_angle < min_hip_angle:
@@ -133,7 +133,7 @@ def visualizarVideo(LabelVideo, LabelInfoVideoPath):
 
 def visualizarImagen(LabelVideo, img_path):
     frame = cv2.imread(img_path)
-    frame = reescaleFrame(frame,width = 360)
+    frame = reescaleFrame(frame, width = 360)
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     im = Image.fromarray(frame)
     img = ImageTk.PhotoImage(image = im) #transformar cada fotograma a formato imageTK

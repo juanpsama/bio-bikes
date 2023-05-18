@@ -85,7 +85,7 @@ def consult_db(ID_paciente):
 # cursor.execute("""INSERT INTO PARAMETROS 
 #     (ID_PACIENTE , URL_VIDEO , KNEE_MIN, KNEE_MAX, HIP_MIN, HIP_MAX, SHOULDER_AVG) 
 #     VALUES 
-#     (2, 'videos_out/video_prueba47', 27.5, 180.3, 22.2, 170.2, 33.2 )""")
+#     (2, 'videos_img_out/video_prueba47', 27.5, 180.3, 22.2, 170.2, 33.2 )""")
 
 # saveData('Juan Jose','Ancheyta', 'Ranger', 140.22, 23.1, 140.22, 23.1, 45.3, 'video/video_prueba13.avi')
 # print("Data Inserted in the table: ")

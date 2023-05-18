@@ -157,10 +157,10 @@ def processVideo(videoPath):
 
         if knee_angle > max_knee_angle:
             max_knee_angle = knee_angle
-            cv.imwrite(f'out/max_angle_{rand_name_file}.png', results_processed['image'])
+            cv.imwrite(f'img_out/max_angle_{rand_name_file}.png', results_processed['image'])
         if knee_angle < min_knee_angle:
             min_knee_angle = knee_angle
-            cv.imwrite(f'out/min_angle_{rand_name_file}.png', results_processed['image'])
+            cv.imwrite(f'img_out/min_angle_{rand_name_file}.png', results_processed['image'])
         
         if hip_angle > max_hip_angle:
             max_hip_angle = hip_angle
