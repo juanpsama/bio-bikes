@@ -11,6 +11,14 @@ max_hip_angle = 0
 min_hip_angle = 400
 avg_shoulder_angle = None
 shoulder_angles = []
+max_hip_move = 0 
+min_hip_move = 4000
+
+max_hip_height = 0 
+min_hip_height = 4000
+
+hip_move_diff = 0
+    
 result_path = None 
 result = None
 
@@ -27,28 +35,39 @@ def iniciarMostrar(LabelVideo, video_path):
 
 #functions for WEBCAM
 def visualizarWebcam(LabelVideo):
-    global cap, result, max_knee_angle, min_knee_angle, max_hip_angle, min_hip_angle, avg_shoulder_angle, shoulder_angles
+    global cap, result, max_knee_angle, min_knee_angle, max_hip_angle, min_hip_angle, avg_shoulder_angle, shoulder_angles, max_hip_height, min_hip_height, max_hip_move, min_hip_angle, min_hip_move
     if cap is not None:
         ret, frame = cap.read()
         if ret == True:
             frame = cv2.resize(frame, (640, 360), interpolation = cv2.INTER_CUBIC)
             data = processImage(frame)
-            if data['knee_angle']  != None:
+            if data['hip_height']  != None:
                 knee_angle = data['knee_angle']  
                 hip_angle = data['hip_angle'] 
                 shoulder_angle = data['shoulder_angle']
                 shoulder_angles.append(shoulder_angle)
+                hip_height= data['hip_height']
+                hip_movement = data['hip_move']
 
                 if knee_angle > max_knee_angle:
                     max_knee_angle = knee_angle
-                    cv.imwrite(f'img_out/max_angle{rand_name_file}.png', data['image'])
+                    cv.imwrite(f'img_out/max_angle_{rand_name_file}.png', data['image'])
                 if knee_angle < min_knee_angle:
                     min_knee_angle = knee_angle
-                    cv.imwrite(f'img_out/min_angle{rand_name_file}.png', data['image'])
+                    cv.imwrite(f'img_out/min_angle_{rand_name_file}.png', data['image'])
+
                 if hip_angle > max_hip_angle:
                     max_hip_angle = hip_angle
                 if hip_angle < min_hip_angle:
                     min_hip_angle = hip_angle
+                if hip_height > max_hip_height:
+                    max_hip_height = hip_height
+                if hip_height < min_hip_height:
+                    min_hip_height = hip_height
+                if hip_movement > max_hip_move:
+                    max_hip_move = hip_movement
+                if hip_movement < min_hip_move:
+                    min_hip_move = hip_movement
 
             frame = data['image']
             result.write(frame)
@@ -64,13 +83,15 @@ def visualizarWebcam(LabelVideo):
 
 def iniciar(LabelVideo):
     global cap, result, result_path, rand_name_file
+    if cap != None:
+        cap.release()
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
     size = (frame_width, frame_height)
     size = (640, 360)
     rand_name_file = random.randint(2,100)
-    result_path = f'videos_out/video_prueba{rand_name_file}.avi'
+    result_path = f'videos_out/video_prueba_{rand_name_file}.avi'
     print(result_path)
     result = cv.VideoWriter(result_path,
 						    cv.VideoWriter_fourcc(*'MJPG'),
@@ -80,14 +101,17 @@ def iniciar(LabelVideo):
 def finalizar():
     global cap, result_path
     avg_shoulder_angle = fmean(shoulder_angles)
+    hip_height_diff = max_hip_height - min_hip_height
+    hip_move_diff = max_hip_move - min_hip_move
     pacients.set_goniometric_data(
         url_video = result_path,
         knee_min = min_knee_angle,
         knee_max = max_knee_angle, 
         hip_min = min_hip_angle,
         hip_max = max_hip_angle, 
-        shoulder_avg = avg_shoulder_angle)
-    pacients.save_data()
+        shoulder_avg = avg_shoulder_angle,
+        hip_traslation_x = hip_move_diff, 
+        hip_traslation_y = hip_height_diff)
     cap.release()
 
 #functions for VIDEO FILES

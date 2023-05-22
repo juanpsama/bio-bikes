@@ -63,6 +63,7 @@ def processImage(image):
     knee_angle = None
     hip_angle = None
     shoulder_angle = None
+    hip = [None, None]
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
     results = pose.process(image)
@@ -174,7 +175,7 @@ def processVideo(videoPath):
 
         if hip_height > max_hip_height:
             max_hip_height = hip_height
-        if hip_angle < min_hip_height:
+        if hip_height < min_hip_height:
             min_hip_height = hip_height
 
         if hip_movement > max_hip_move:

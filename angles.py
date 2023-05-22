@@ -48,5 +48,7 @@ def ProcessAngles(knee_min, knee_max):
          return 'Bajar altura de sillin' 
     if knee_min < MIN_KNEE :
          return 'Subir altura de sillin' 
+    else:
+        return 'No hay necesidad de ajuste'
 
 
