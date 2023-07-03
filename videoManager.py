@@ -142,7 +142,8 @@ def visualizarVideo(LabelVideo, LabelInfoVideoPath):
         cap = None
     video_path = filedialog.askopenfilename(filetypes= [
         ("all video format", ".mp4"),
-        ("all video format", ".avi")])
+        ("all video format", ".avi"), 
+        ("all video format", ".mov") ])
     if len(video_path) > 0:
         # LabelInfoVideoPath.configure(text = "")
         # LabelInfoVideoPath.update()

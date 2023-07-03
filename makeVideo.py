@@ -50,7 +50,8 @@ excluded_landmarks = [
     PoseLandmark.LEFT_HEEL,
     PoseLandmark.LEFT_ANKLE,
     PoseLandmark.LEFT_FOOT_INDEX,
-    PoseLandmark.LEFT_KNEE]
+    PoseLandmark.LEFT_KNEE,
+    PoseLandmark.RIGHT_HEEL]
 
 for landmark in excluded_landmarks:
     # we change the way the excluded landmarks are drawn
