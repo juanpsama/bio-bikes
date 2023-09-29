@@ -356,11 +356,11 @@ etiquetaRodillaMaximo.grid(column = 3, row = 6, pady=5)
 etiquetaImagenMax = Label(ventanaInfPaciente)
 etiquetaImagenMax.grid(column = 3, row = 7, rowspan=6)
 #-----------------------main def--------------------------------------
-CambiarVentanaPrincipal()
+# CambiarVentanaPrincipal()
 # CambiarVentanaVideo()
 # CambiarVentanaSelectInfPaciente()
 # CambiarInfPaciente(1) 
-# CambiarVentanaWebcam()
+CambiarVentanaWebcam()
 
 
 ventana.mainloop()

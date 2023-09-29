@@ -83,6 +83,7 @@ def visualizarWebcam(LabelVideo):
 
 def iniciar(LabelVideo):
     global cap, result, result_path, rand_name_file
+    cap.release()
     if cap != None:
         cap.release()
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
