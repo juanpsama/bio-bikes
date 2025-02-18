@@ -6,3 +6,6 @@ videos_out/
 __pycache__/
 *.py[cod]
 *$py.class
+/venv
+*.whl
+*.db

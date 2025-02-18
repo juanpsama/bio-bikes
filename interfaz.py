@@ -1,9 +1,10 @@
-from tkinter import *
+from tkinter import Tk, Frame, Button, Label, Entry, IntVar, Checkbutton
 # import customtkinter
 import pacients 
 # from videoManager import *
 import videoManager
 import angles
+from db_manager import session, Pacient
 
 ventana =  Tk()
 ventana.title("Análisis Biomecánico")
@@ -89,15 +90,18 @@ def CambiarVentanaPrincipal():
     # boton2.place_forget()
     #order.pack_forget() para todas las demas ventanas hay que borrarlas con pack_forget()
 
-def CambiarInfPaciente(Id_paciente):
+def CambiarInfPaciente(id_paciente):
     global datos_paciente
     ventana.title("Cargar Video")
     ventana.geometry("1080x550")
     ventanaInfPaciente.pack(fill='both', expand=1)
     ventanaPrincipal.pack_forget()
     ventanaCargarVideo.pack_forget()
-    datos_paciente = pacients.get_pacient_data(Id_paciente)
+    datos_paciente = pacients.get_pacient_data(id_paciente)
+    paciente : Pacient = session.query(Pacient).filter(Pacient.id==id_paciente).one()
+    datos_paciente = paciente
     ActualizarTextosInforme()
+
 def VerificarIdValido():
     if entradaIdPaciente.get() != '':
         id = int(entradaIdPaciente.get())
@@ -109,6 +113,7 @@ def VerificarIdValido():
             CambiarInfPaciente(id) 
     else:
         mensajeErrorTexto.configure(text='El campo ID esta vacio!!', fg='red')
+
 def ActualizarTextosInforme():
     #muestra el video en el labelvideo3
     videoManager.iniciarMostrar(LabelVideo3, datos_paciente['url_video'])
@@ -131,11 +136,12 @@ def GuardarDatos():
     #Actualiza el labbel de guardado
     try:
         savedLabbel.configure(text = 'Ha ocurrido un error, no se han generado datos correctamente')
+        # Pacient()
         if pacients.save_data():
             savedLabbel.configure(text = 'Los datos han sido guardados correctamente')
             saveButton.grid(column = 2, row = 3, pady = 5)       
-    except:
-        savedLabbel.configure(text = 'Ha ocurrido un error, porfavor reinicie')
+    except Exception as e:  
+        savedLabbel.configure(text = str(e))
 def EjecutarAnalisisDenuevo():
     savedLabbel.configure(text='')
     saveButton.grid_forget()
@@ -146,6 +152,7 @@ def finalizarGrabacion():
     pacients.save_data()
 
 ##Widgets de cada pantalla-------------------------------------------------------
+
 ##Widgets de la Ventana principal+-------------------------------------------
 boton1 =  Button(ventanaPrincipal, text = "Nuevo paciente", width = 20, height = 5, command = CambiarVentanaPaciente)
 mensajeErrorTexto = Label(ventanaPrincipal, text='', font=("Arial", 12))
@@ -161,6 +168,7 @@ entradaIdPaciente.grid(row=2, column=0)
 boton2 =  Button(ventanaPrincipal, text = "Ver informe del paciente", width = 20, height = 5, command = VerificarIdValido)
 boton1.grid(row=0, column=0,columnspan=2,padx=170, pady=50)
 boton2.grid(row=1, column=1, rowspan = 2)
+
 ##Widgets de la ventana webcam------------------------------------------
 btnIniciar = Button(ventanaWebcam, text="Iniciar", width=45, command = lambda: videoManager.iniciarMostrar(LabelVideoWebcam, 0))
 btnIniciar.grid(column=0, row=0, padx=5, pady=5)
@@ -356,11 +364,11 @@ etiquetaRodillaMaximo.grid(column = 3, row = 6, pady=5)
 etiquetaImagenMax = Label(ventanaInfPaciente)
 etiquetaImagenMax.grid(column = 3, row = 7, rowspan=6)
 #-----------------------main def--------------------------------------
-# CambiarVentanaPrincipal()
+CambiarVentanaPrincipal()
 # CambiarVentanaVideo()
 # CambiarVentanaSelectInfPaciente()
 # CambiarInfPaciente(1) 
-CambiarVentanaWebcam()
+# CambiarVentanaWebcam()
 
 
 ventana.mainloop()

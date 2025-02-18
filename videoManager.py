@@ -38,7 +38,7 @@ def visualizarWebcam(LabelVideo):
     global cap, result, max_knee_angle, min_knee_angle, max_hip_angle, min_hip_angle, avg_shoulder_angle, shoulder_angles, max_hip_height, min_hip_height, max_hip_move, min_hip_angle, min_hip_move
     if cap is not None:
         ret, frame = cap.read()
-        if ret == True:
+        if ret:
             frame = cv2.resize(frame, (640, 360), interpolation = cv2.INTER_CUBIC)
             data = processImage(frame)
             if data['hip_height']  != None:
@@ -120,7 +120,7 @@ def visualizar(LabelVideo, LabelInfoVideoPath):#leer el video
     global cap
     if cap is not None:
         ret, frame = cap.read()
-        if ret == True:
+        if ret:
             # frame = imutils.resize(frame, width = 640)
             frame = reescaleFrame(frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
