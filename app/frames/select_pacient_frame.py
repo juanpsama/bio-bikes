@@ -40,7 +40,9 @@ class SelectPacientFrame(Frame):
         entry_pacient_id.pack()
         select_paciente.pack(pady=50)
 
-        self.pack(fill='both', expand=1)
+        # self.pack(fill='both', expand=1)
+        # self.grid(row=0, column=0)
+
 
     def _check_pacient_data(self, pacient_id_entry:Entry, controller):
         if not pacient_id_entry.get():

@@ -10,5 +10,7 @@ class Controller:
         self.show_frame("SelectPacientFrame")
 
     def show_frame(self, page_name):
-        frame:Frame = self.frames[page_name]
-        frame.tkraise()
+        for frame in self.frames.values():
+            frame.pack_forget()
+        frame = self.frames[page_name]
+        frame.pack(fill='both', expand=1)
