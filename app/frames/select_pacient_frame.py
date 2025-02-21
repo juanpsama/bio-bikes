@@ -1,5 +1,7 @@
 from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter import Tk, messagebox
+
+from app.utils import validate_only_numbers
 from ..models import Pacient, session
 
 
@@ -20,7 +22,7 @@ class SelectPacientFrame(Frame):
         entry_pacient_id = Entry(
             self,
             validate="key",
-            validatecommand=(self.register(self.validate_only_numbers), "%S")
+            validatecommand=(self.register(validate_only_numbers), "%S")
             # validatecommand=(ventanaPaciente.register(validate_entry), "%S", "%P", 3)
         )
 
@@ -53,9 +55,4 @@ class SelectPacientFrame(Frame):
         if pacient is not None:
             return controller.show_frame("NextFrame")
         messagebox.showerror("Usuario NO ENCONTRADO", f"El usuario con el id {pacient_id} no existe")
-
-    def validate_only_numbers(self, entry:str):
-        # TODO: Extract this method and other in a future utils.py file
-        return entry.isdigit()
-
         
