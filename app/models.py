@@ -21,7 +21,7 @@ class Pacient(Base):
     last_name = Column(String)
     bike_name = Column(String)
     age = Column(Integer) 
-    weigth = Column(Float)
+    weight = Column(Float)
     height = Column(Float)
     gender = Column(Enum(GenderEnum))
     url_video = Column(String)  
@@ -33,5 +33,4 @@ class Pacient(Base):
     hip_translation_horizontal=Column(Float)
     hip_translation_vertical=Column(Float)
       
-    # fees = relationship("Fee") 
 Base.metadata.create_all(engine)
