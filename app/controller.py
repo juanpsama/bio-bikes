@@ -1,5 +1,11 @@
 from tkinter import Frame
-from .frames import SelectPacientFrame, PacientDataFrame
+from app.utils import error_handler
+from app.video_controller import VideoController
+from .frames import (SelectPacientFrame,
+                     PacientDataFrame,
+                     SelectImageInputFrame,
+                     VideoAnalisisFrame,
+                     WebcamImageInputFrame)
 
 class Controller:
     def __init__(self, root):
@@ -12,6 +18,7 @@ class Controller:
         self.current_user=None
         self.current_pacient=None
 
+    @error_handler
     def show_frame(self, page_name):
         for frame in self.frames.values():
             frame.pack_forget()
