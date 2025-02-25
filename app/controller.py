@@ -10,6 +10,9 @@ from .frames import (SelectPacientFrame,
 class Controller:
     def __init__(self, root):
         self.root = root
+        self.current_user=None
+        self.current_pacient=None
+        self.video_controller = VideoController()
         self.frames : dict[str, Frame] = {
             SelectPacientFrame.__name__ : SelectPacientFrame(parent=root, controller=self),
             PacientDataFrame.__name__ : PacientDataFrame(parent=root, controller=self),
@@ -18,9 +21,6 @@ class Controller:
             WebcamImageInputFrame.__name__ : WebcamImageInputFrame(parent=root, controller=self)
         }
         self.show_frame("SelectPacientFrame")
-        self.current_user=None
-        self.current_pacient=None
-        self.video_controller = VideoController()
 
     @error_handler
     def show_frame(self, page_name):
