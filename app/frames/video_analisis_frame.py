@@ -1,10 +1,17 @@
-from tkinter.ttk import Button, Frame, Label
-from tkinter import Tk, filedialog
+import threading
+from time import sleep
 
+from tkinter.ttk import Button, Frame, Label
+from tkinter import filedialog
+import tkinter as tk
+
+from app.video_controller import VideoController
 
 class VideoAnalisisFrame(Frame):
-    def __init__(self, parent: Tk, controller):
+    def __init__(self, parent: tk.Tk, controller):
         super().__init__(parent)
+        self.controller = controller
+        self.video_controller : VideoController = controller.video_controller
         self.video_path = None
 
         self.entry_video_label = Label(self, text="Video de entrada:")
@@ -16,10 +23,8 @@ class VideoAnalisisFrame(Frame):
         self.video_label = Label(self)
         self.video_label.grid(column=0, row=3, columnspan=2)
 
-        self.save_button = Button(self, text="Guardar")
         self.save_button = Button(self, text="Informe")
-        self.save_button.grid(column=0, row=4, pady=5)
-
+        
         self.saved_label = Label(self, text="")
         self.saved_label.grid(column=1, row=4, pady=5, padx=5)
 
@@ -29,7 +34,7 @@ class VideoAnalisisFrame(Frame):
         self.open_video_dialog.grid(column=0, row=0, columnspan=2)
 
         self.process_video_button = Button(
-            self, text="Procesar video", width=25, command=self._process_video
+            self, text="Procesar video", width=25, command=self._start_process_thread
         )
 
     def _open_video_dialog(self):
@@ -44,33 +49,31 @@ class VideoAnalisisFrame(Frame):
             self.video_path = video_path
             self.info_path_label.configure(text=video_path)
             self.process_video_button.grid(column=0, row=1, columnspan=2)
-            # TODO: Make the video play
-            return
-        self.info_path_label.configure(text="Aún no se ha seleccionado un video")
-        self.process_video_button.grid_forget()
+            self.video_controller.visualizar(
+                self.video_label, self.info_path_label, video_path,
+                width=self.controller.root.winfo_width()
+            )
+
+    def _start_process_thread(self):
+        print("Starting thread")
+        self.process_video_button['state'] = tk.DISABLED
+        self.open_video_dialog['state'] = tk.DISABLED
+        # self.stop_button['state'] = tk.NORMAL
+        # TODO: Show a loading animation while the video is being processed
+        self.process_thread = threading.Thread(target=self._process_video)
+        self.process_thread.start()
+        print("Processing video...")
+        self.monitor_tread(self.process_thread)
+
+    def monitor_tread(self, thread : threading.Thread):
+        if thread.is_alive():
+            # Check the thread every 100ms
+            self.after(100, lambda: self.monitor_tread(thread))
+        else:
+            self.process_video_button['state'] = tk.NORMAL
+            # self.stop_button['state'] = tk.DISABLED
 
     def _process_video(self):
-        pass
-
-    # def GuardarDatos():
-    #     #Llama a pacients para que guarde los datos en la db
-    #     #Actualiza el labbel de guardado
-    #     try:
-    #         savedLabbel.configure(text = 'Ha ocurrido un error, no se han generado datos correctamente')
-    #         # Pacient()
-    #         if pacients.save_data():
-    #             savedLabbel.configure(text = 'Los datos han sido guardados correctamente')
-    #             saveButton.grid(column = 2, row = 3, pady = 5)
-    #     except Exception as e:
-    #         savedLabbel.configure(text = str(e))
-    # def CambiarInfPaciente(id_paciente):
-    #     global datos_paciente
-    #     ventana.title("Cargar Video")
-    #     ventana.geometry("1080x550")
-    #     ventanaInfPaciente.pack(fill='both', expand=1)
-    #     ventanaPrincipal.pack_forget()
-    #     ventanaCargarVideo.pack_forget()
-    #     datos_paciente = pacients.get_pacient_data(id_paciente)
-    #     paciente : Pacient = session.query(Pacient).filter(Pacient.id==id_paciente).one()
-    #     datos_paciente = paciente
-    #     ActualizarTextosInforme()
+        # TODO: Call mediapipe to extract the pose data from the video
+        sleep(5)
+        self.save_button.grid(column=0, row=4, pady=5, columnspan=2)
