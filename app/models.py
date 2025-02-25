@@ -1,18 +1,24 @@
+import os
 import enum
+from dotenv import load_dotenv
+
 from sqlalchemy import create_engine, Column, Integer, String, Float, Enum 
 from sqlalchemy.orm import declarative_base 
 from sqlalchemy.orm import sessionmaker 
-  
-engine = create_engine('sqlite:///gfg.db') 
+
+# Load environment variables from .env file
+load_dotenv()
+# Get the database URL from the environment variable
+DATABASE_URL = os.environ.get('DATABASE_URL')
+# Create the database engine
+engine = create_engine(DATABASE_URL)
+
 Base = declarative_base() 
 Session = sessionmaker(bind=engine) 
 session = Session() 
-
-
 class GenderEnum(enum.Enum):
     FEMENINO = "Femenino"
     MASCULINO = "Masculino"
-    
 class Pacient(Base): 
     __tablename__ = 'pacients'
       
