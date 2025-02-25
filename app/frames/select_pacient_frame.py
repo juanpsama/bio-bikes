@@ -53,6 +53,8 @@ class SelectPacientFrame(Frame):
         pacient_id = int(pacient_id_entry.get())
         pacient : Pacient = session.query(Pacient).filter(Pacient.id==pacient_id).first()
         if pacient is not None:
+            controller.current_pacient = pacient
             return controller.show_frame("NextFrame")
+        
         messagebox.showerror("Usuario NO ENCONTRADO", f"El usuario con el id {pacient_id} no existe")
         
