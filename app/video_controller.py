@@ -1,3 +1,4 @@
+from time import sleep
 import cv2 as cv
 from PIL import Image 
 from PIL import ImageTk
@@ -45,7 +46,18 @@ class VideoController:
         return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
     
     def process_video(self, video_path):
-        pass
+        # TODO: Call mediapipe to extract the pose data from the video
+        print(video_path)
+        cap = cv.VideoCapture(video_path)
+        ret, frame = cap.read()
+
+        sleep(5)
+    def get_image_from_path(self, img_path:str, width:int )-> ImageTk.PhotoImage:
+        frame = cv.imread(img_path)
+        frame = self._reescale_frame(frame, width = width)
+        frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+        image_array = Image.fromarray(frame)
+        return ImageTk.PhotoImage(image=image_array)
 
     # Dump here all the video related methods
     # def open_video_dialog(self, label_video):
