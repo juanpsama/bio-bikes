@@ -14,5 +14,6 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
+            print(e)
             messagebox.showerror("Error", str(e))
     return wrapper
