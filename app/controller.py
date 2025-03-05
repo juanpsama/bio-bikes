@@ -7,7 +7,7 @@ from .frames import (SelectPacientFrame,
                      VideoAnalisisFrame,
                      WebcamImageInputFrame,
                      PacientInfoFrame,
-                     HeaderMenuFrame)
+                     HeaderMenu)
 
 class Controller:
     def __init__(self, root):
@@ -23,7 +23,7 @@ class Controller:
             WebcamImageInputFrame.__name__ : WebcamImageInputFrame(parent=root, controller=self),
             PacientInfoFrame.__name__ : PacientInfoFrame(parent=root, controller=self)
         }
-        HeaderMenuFrame(self.root, self).pack(side="top", fill="x")
+        HeaderMenu(parent=root, controller=self)
         self.show_frame("SelectPacientFrame")
 
     @error_handler
