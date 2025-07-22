@@ -10,6 +10,8 @@ from app.video_controller import VideoController
 class VideoAnalisisFrame(Frame):
     def __init__(self, parent: tk.Tk, controller):
         super().__init__(parent)
+        self.display_name = "Analisis de video"
+
         self.controller = controller
         self.video_controller: VideoController = controller.video_controller
         self.video_path = None
@@ -66,8 +68,7 @@ class VideoAnalisisFrame(Frame):
         self.open_video_dialog["state"] = tk.DISABLED
         # self.stop_button['state'] = tk.NORMAL
         # TODO: Show a loading animation while the video is being processed
-        self.process_thread = threading.Thread(target=self._process_video)
-        self.process_thread.start()
+        self.process_thread = threading.Thread(target=self._process_video).start()
         print("Processing video...")
         self.monitor_tread(self.process_thread)
 
@@ -77,8 +78,10 @@ class VideoAnalisisFrame(Frame):
             self.after(100, lambda: self.monitor_tread(thread))
         else:
             self.process_video_button["state"] = tk.NORMAL
+            print("Procesado")
             # self.stop_button['state'] = tk.DISABLED
 
     def _process_video(self):
         self.video_controller.process_video(self.video_path)
+        # When the process ends the buttons to save appears
         self.save_button.grid(column=0, row=4, pady=5, columnspan=2)

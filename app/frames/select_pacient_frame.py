@@ -8,6 +8,10 @@ from ..models import Pacient, session
 class SelectPacientFrame(Frame):
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
+
+        self.display_name = "Paciente"
+
+
         self.controller = controller
 
         add_pacient_btn = Button(

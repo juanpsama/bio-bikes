@@ -4,6 +4,8 @@ from tkinter import Tk
 class WebcamImageInputFrame(Frame):
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
+        self.display_name = "Analisis webcam"
+
         self.controller = controller
         btnIniciar = Button(self, text="Iniciar", width=45) #, command = lambda: videoManager.iniciarMostrar(LabelVideoWebcam, 0))
         btnIniciar.grid(column=0, row=0, padx=5, pady=5)

@@ -8,6 +8,8 @@ from ..models import Pacient, session, GenderEnum
 class PacientDataFrame(Frame):
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
+        self.display_name = "Datos del paciente"
+
         self.controller = controller
 
         validate_command_char = (self.register(validate_entry_char), "%S")

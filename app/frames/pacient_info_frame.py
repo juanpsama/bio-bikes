@@ -8,6 +8,8 @@ from app.video_controller import VideoController
 class PacientInfoFrame(Frame):
     def __init__(self, parent: tk.Tk, controller):
         super().__init__(parent)
+        self.display_name = "Informacion del paciente"
+
         self.controller = controller
         # controller.root.geometry("1080x550")
         self.video_controller: VideoController = controller.video_controller
