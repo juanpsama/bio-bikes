@@ -36,5 +36,5 @@ Bio-bikes genera una lectura goniométrica, identificando cuales son los puntos 
 
 6. **Ejecutar la aplicación**
    ```sh
-   python -m app
+   python main.py
    ```
