@@ -7,7 +7,6 @@ class WebcamImageInputFrame(Frame, EnterMethodMixin):
     display_name = "Analisis webcam"
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
-        self.display_name = "Analisis webcam"
 
         self.controller = controller
         btnIniciar = Button(self, text="Iniciar", width=45) #, command = lambda: videoManager.iniciarMostrar(LabelVideoWebcam, 0))
