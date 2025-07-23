@@ -101,4 +101,4 @@ class PacientDataFrame(Frame, EnterMethodMixin):
             session.commit()
             self.controller.current_pacient = pacient
             self.controller.show_frame("SelectImageInputFrame")
-            # messagebox.showinfo("Paciente creado", f"El paciente {pacient.name} ha sido creado")
+            messagebox.showinfo("Paciente creado", f"El paciente {pacient.name} ha sido creado")
