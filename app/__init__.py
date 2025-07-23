@@ -4,7 +4,6 @@ from .controller import Controller
 def run_app():
     root = Tk()
     root.title("Análisis Biomecánico")
-    root.geometry("500x500")
-    root.resizable(False, False)
+    root.resizable(False, True)
     Controller(root)
     root.mainloop()
