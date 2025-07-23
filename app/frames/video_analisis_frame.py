@@ -15,6 +15,9 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
         self.controller = controller
         self.video_controller: VideoController = controller.video_controller
         self.video_path = None
+        
+        self.video_width =  int(self.controller.width * 0.45)
+
 
         self.entry_video_label = Label(self, text="Video de entrada:")
         self.entry_video_label.grid(column=0, row=2)
@@ -23,7 +26,12 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
         self.info_path_label.grid(column=1, row=2)
         # This label will be used to show the video
         self.video_label = Label(self)
-        self.video_label.grid(column=0, row=3, columnspan=2)
+        self.video_label.grid(column=0, row=3)
+        self.video_controller.show_placeholder_image(self.video_label, self.video_width)
+
+        self.video_processed_label = Label(self)
+        self.video_processed_label.grid(column=1, row=3)
+        self.video_controller.show_placeholder_image(self.video_processed_label, self.video_width)
 
         self.save_button = Button(
             self,
@@ -32,7 +40,7 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
         )
 
         self.saved_label = Label(self, text="")
-        self.saved_label.grid(column=1, row=4, pady=5, padx=5)
+        self.saved_label.grid(column=1, row=5, pady=5, padx=5)
 
         self.open_video_dialog = Button(
             self, text="Elegir video", width=25, command=self._open_video_dialog
@@ -55,11 +63,12 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
             self.video_path = video_path
             self.info_path_label.configure(text=video_path)
             self.process_video_button.grid(column=0, row=1, columnspan=2)
+            print(self.controller.root.winfo_width())
             self.video_controller.visualizar(
                 self.video_label,
-                self.info_path_label,
                 video_path,
-                width=self.controller.root.winfo_width(),
+                label_info_video=self.info_path_label,
+                width=self.video_width,
             )
 
     def _start_process_thread(self):
@@ -73,7 +82,7 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
         self.monitor_tread(self.process_thread)
 
     def monitor_tread(self, thread: threading.Thread):
-        if thread.is_alive():
+        if thread is None or thread.is_alive():
             # Check the thread every 100ms
             self.after(100, lambda: self.monitor_tread(thread))
         else:
@@ -82,6 +91,15 @@ class VideoAnalisisFrame(Frame, EnterMethodMixin):
             # self.stop_button['state'] = tk.DISABLED
 
     def _process_video(self):
-        self.video_controller.process_video(self.video_path)
+        video_processed_path = self.video_controller.process_video(self.video_path)
         # When the process ends the buttons to save appears
+        self.video_controller.visualizar(self.video_processed_label, video_path=video_processed_path, width=self.video_width)
         self.save_button.grid(column=0, row=4, pady=5, columnspan=2)
+
+    def on_pack(self):
+        """
+        Method to be called when the Enter key is pressed.
+        """
+        print("The screen is packed")
+        self.video_controller.close_video_loop()
+        
