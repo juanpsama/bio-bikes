@@ -1,15 +1,16 @@
 from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter import Tk, messagebox
 
+from app.frames.frame_mixin import EnterMethodMixin
 from app.utils import validate_only_numbers
 from ..models import Pacient, session
 
 
-class SelectPacientFrame(Frame):
+class SelectPacientFrame(Frame, EnterMethodMixin):
+    display_name = "Paciente"
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
 
-        self.display_name = "Paciente"
 
 
         self.controller = controller

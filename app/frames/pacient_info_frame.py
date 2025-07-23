@@ -1,14 +1,15 @@
 from tkinter.ttk import Button, Frame, Label
 import tkinter as tk
 
+from app.frames.frame_mixin import EnterMethodMixin
 from app.models import Pacient
 from app.video_controller import VideoController
 
 
-class PacientInfoFrame(Frame):
+class PacientInfoFrame(Frame, EnterMethodMixin):
+    display_name = "Informacion del paciente"
     def __init__(self, parent: tk.Tk, controller):
         super().__init__(parent)
-        self.display_name = "Informacion del paciente"
 
         self.controller = controller
         # controller.root.geometry("1080x550")

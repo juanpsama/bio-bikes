@@ -4,14 +4,14 @@ from tkinter.ttk import Button, Frame, Label
 from tkinter import filedialog
 import tkinter as tk
 
+from app.frames.frame_mixin import EnterMethodMixin
 from app.video_controller import VideoController
 
 
-class VideoAnalisisFrame(Frame):
+class VideoAnalisisFrame(Frame, EnterMethodMixin):
+    display_name = "Analisis de video"
     def __init__(self, parent: tk.Tk, controller):
         super().__init__(parent)
-        self.display_name = "Analisis de video"
-
         self.controller = controller
         self.video_controller: VideoController = controller.video_controller
         self.video_path = None

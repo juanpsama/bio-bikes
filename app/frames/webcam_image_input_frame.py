@@ -1,7 +1,10 @@
 from tkinter.ttk import Frame, Button, Label
 from tkinter import Tk
 
-class WebcamImageInputFrame(Frame):
+from app.frames.frame_mixin import EnterMethodMixin
+
+class WebcamImageInputFrame(Frame, EnterMethodMixin):
+    display_name = "Analisis webcam"
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
         self.display_name = "Analisis webcam"

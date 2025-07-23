@@ -1,14 +1,15 @@
 from tkinter.ttk import Button, Frame, Label, Entry, Combobox
 from tkinter import Tk, messagebox, StringVar
 
+from app.frames.frame_mixin import EnterMethodMixin
 from app.utils import validate_entry_char, validate_only_numbers, error_handler
 from ..models import Pacient, session, GenderEnum
 
 
-class PacientDataFrame(Frame):
+class PacientDataFrame(Frame, EnterMethodMixin):
+    display_name = "Datos del paciente"
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
-        self.display_name = "Datos del paciente"
 
         self.controller = controller
 

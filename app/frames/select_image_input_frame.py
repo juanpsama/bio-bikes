@@ -1,10 +1,12 @@
 from tkinter.ttk import Button, Frame
 from tkinter import Tk
 
-class SelectImageInputFrame(Frame):
+from app.frames.frame_mixin import EnterMethodMixin
+
+class SelectImageInputFrame(Frame, EnterMethodMixin):
+    display_name = "Selecciona opcion de entrada"
     def __init__(self, parent: Tk, controller):
         super().__init__(parent)
-        self.display_name = "Selecciona opcion de entrada"
 
         self.controller = controller
         video_button =  Button(self, text = "Seleccionar Video", command=lambda: controller.show_frame("VideoAnalisisFrame"))
